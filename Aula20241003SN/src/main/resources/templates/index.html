@@ -1,0 +1,22 @@
+<html>
+	<body>
+		<h1>Ola mundo</h1>
+	</body>
+	
+	<table border="1">
+		<tr>
+			<th>Codigo</th>
+			<th>Nome</th>
+			<th>Idade</th>
+			<th>Senha</th>
+			<th>Nível de Acesso</th>
+		</tr>
+		<tr th:each="pessoa : ${pessoas}">
+			<td th:text="${pessoa.codigo}"></td>
+		    <td th:text="${pessoa.nome}"></td>
+		    <td th:text="${pessoa.idade}"></td>
+			<td th:text="${pessoa.senha}"></td>
+			<td th:text="${pessoa.nivelAcesso}"></td>
+		</tr>
+	</table>
+</html>
