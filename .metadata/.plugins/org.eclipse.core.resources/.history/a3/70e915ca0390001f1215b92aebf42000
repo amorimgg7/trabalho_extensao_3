@@ -1,0 +1,49 @@
+<html>
+	<body>
+		<h1>Ola mundo</h1>
+	</body>
+	
+	<table border="1">
+		<tr>
+			<th>i</th>
+			<th>Codigo</th>
+			<th>Nome</th>
+			<th>Idade</th>
+			<th>Senha</th>
+			<th>Nivel de Acesso</th>
+			<th>BTN</th>
+		</tr>
+		<tr th:each="pessoa, stat : ${pessoas}">
+			<td th:text="${stat.index}"></td>
+			<td th:text="${pessoa.codigo}"></td>
+		    <td th:text="${pessoa.nome}"></td>
+		    <td th:text="${pessoa.idade}"></td>
+			<td th:text="${pessoa.senha}"></td>
+			<td th:text="${pessoa.nivelAcesso}"></td>
+			<td><a th:href="@{/index2/{cod}(cod=${pessoa.codigo})}">Selecionar</a></td>
+			<input type="tel" id="indexValue" th:value="${stat.index}"/>
+		</tr>
+		
+		
+		
+	</table>
+	
+	
+	
+	
+	<!-- "Voltar" button -->
+	<button id="btnVoltar"  onclick="window.history.back()">Voltar2</button>
+	
+
+	<script>
+	    // Get the stat.index value passed from Thymeleaf
+	    var currentIndex = document.getElementById('indexValue').value; // Default value is 0 in case stat.index is not available
+
+	    // Control the visibility of the "Voltar" button
+	    if (currentIndex > 1) {
+	        document.getElementById('btnVoltar').style.display = 'none';											
+	    } else {
+	        document.getElementById('btnVoltar').style.display = 'block';
+	    }
+	</script>
+</html>

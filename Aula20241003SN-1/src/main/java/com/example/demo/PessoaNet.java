@@ -14,10 +14,6 @@ public interface PessoaNet {
     @GET("pessoa/{codigo}")
     Call<Pessoa> obter(@Path(value = "codigo") Integer codigo);
     
-    //@GET("pessoa")
-    //Call<List<Pessoa>> obter(Integer codigo);
-    
-    
     @GET("pessoa")
     Call<List<Pessoa>> obterTodos();
     

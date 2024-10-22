@@ -1,0 +1,30 @@
+<html>
+	<body>
+		<h1>Ola mundo</h1>
+	</body>
+	
+	<table border="1">
+		<tr>
+			<th>i</th>
+			<th>Codigo</th>
+			<th>Nome</th>
+			<th>Idade</th>
+			<th>Senha</th>
+			<th>Nivel de Acesso</th>
+			<th>BTN</th>
+		</tr>
+		<tr th:each="pessoa, stat : ${pessoas}">
+			<td th:text="${stat.index}"></td>
+			<td th:text="${pessoa.codigo}"></td>
+		    <td th:text="${pessoa.nome}"></td>
+		    <td th:text="${pessoa.idade}"></td>
+			<td th:text="${pessoa.senha}"></td>
+			<td th:text="${pessoa.nivelAcesso}"></td>
+			<td><a th:href="@{/index2/{cod}(cod=${pessoa.codigo})}">Selecionar</a></td>
+		</tr>
+		
+		
+		
+	</table>
+	<button id="btnvoltar" onclick="window.history.back()">Voltar</button>
+</html>

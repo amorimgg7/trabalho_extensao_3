@@ -101,6 +101,7 @@
 		
 		<table>
 			<tr>
+				<th class="status-card">i</th>
 				<th class="status-card">Codigo</th>
 				<th class="status-card">Nome</th>
 				<th class="status-card">Idade</th>
@@ -108,6 +109,7 @@
 				<th class="status-card">Nível de Acesso</th>
 			</tr>
 			<tr th:each="pessoa : ${pessoas}">
+				<td class="gps-info" th:text="${pessoa[i].row()}"></td>
 				<td class="gps-info" th:text="${pessoa.codigo}"></td>
 			    <td class="gps-info" th:text="${pessoa.nome}"></td>
 			    <td class="gps-info" th:text="${pessoa.idade}"></td>

@@ -35,7 +35,7 @@ public class PessoaController {
 	}
 	
 	@GetMapping("{codigo}")
-	public Pessoa obter(@PathVariable Integer codigo, HttpServletResponse resp){
+	public Pessoa obter(@PathVariable("codigo") Integer codigo, HttpServletResponse resp){
 		Optional<Pessoa> p = dao.findById(codigo);
 		if(p.isPresent())
 			return p.get();
