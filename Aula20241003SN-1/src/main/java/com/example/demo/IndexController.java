@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -30,7 +31,7 @@ public class IndexController {
 		return "index2";
 	}
 	
-	/*
+	
 	@GetMapping("/index2/{codigo}")
 	public String index2(@PathVariable("codigo") Integer codigo, Model model) {
 	    try {
@@ -39,8 +40,19 @@ public class IndexController {
 	        e.printStackTrace();
 	    }
 	    return "index2";
-	}*/
+	}
 	
+	@GetMapping("/index2/{nome}/{senha}")
+	public String index2(@PathVariable("nome") String nome, @PathVariable("senha") String senha, Model model) {
+	    try {
+	        model.addAttribute("pessoas", pnet.login(nome, senha).execute().body());
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	    return "index2";
+	}
+	
+	/*
 	@GetMapping("/index2/{codigo}")
 	public String index2(@PathVariable("codigo") Integer codigo, Model model) {
 	    try {
@@ -58,8 +70,7 @@ public class IndexController {
 	    }
 	    return "index2";
 	}
-
-
+*/
 
 	
 	
@@ -71,6 +82,16 @@ public class IndexController {
 			System.out.println("Erro");
 		}
 		return "dashboard";
+	}
+	
+	@PostMapping("/dashboard/{nome}/{senha}")
+	public String dashboard(@PathVariable("nome") String nome, @PathVariable("senha") String senha, Model model) {
+	    try {
+	        model.addAttribute("pessoas", pnet.login(nome, senha).execute().body());
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	    return "dashboard";
 	}
 	
 	
