@@ -1,0 +1,19 @@
+package com.example.demo;
+
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import retrofit2.Call;
+import retrofit2.http.GET;
+
+public interface PessoaDAO extends JpaRepository<Pessoa, Integer>{
+
+	@GET("pessoa")
+    Call<List<Pessoa>> obterTodos();
+	
+	Optional<Pessoa> findByNomeAndSenha(String nome, String senha);
+
+}

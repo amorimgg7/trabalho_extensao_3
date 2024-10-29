@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!--<script>location.href="localhost:8080/dashboard";</script>-->
+    <title>Dashboard de Aluguel de Patinete</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .dashboard-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .status-info {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+        .status-card {
+            flex: 1;
+            background-color: #eaeaea;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 0 10px;
+        }
+        .status-card h2 {
+            color: #666;
+        }
+        .status-card p {
+            font-size: 1.5rem;
+            color: #333;
+        }
+		
+        .gps-info {
+            margin-top: 20px;
+            background-color: #e0f7fa;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .gps-info h3 {
+            color: #00796b;
+        }
+        .gps-info p {
+            color: #004d40;
+            font-size: 1.2rem;
+        }
+        .not-alugado {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #d32f2f;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>Dashboard de Aluguel de Patinete</h1>
+
+		<div class="gps-info">
+			<h3>Olá, fulano de tal, aproveite nossos serviços</h3>
+		    <p>...status...atualizações...financeiro...</p>
+		</div>
+		
+        
+        <div class="status-info">
+            <div class="status-card">
+                <h2>Status do Patinete</h2>
+                <p>Alugado</p>
+            </div>
+            <div class="status-card">
+                <h2>Tempo de Uso</h2>
+                <p id="tempo-uso">15 min</p> 
+            </div>
+        </div>
+
+        <div class="gps-info">
+            <h3>Localização Atual do Patinete</h3>
+            <p id="gps-local">Rua Exemplo, 123 - Centro, Cidade</p> 
+        </div>
+
+        <!-- Se o usuário não estiver com patinete alugado -->
+        
+        <div class="not-alugado">
+            <p>Você não está com nenhum patinete alugado no momento.</p>
+        </div>
+        
+		
+		<table>
+			<tr>
+				<th class="status-card">i</th>
+				<th class="status-card">Codigo</th>
+				<th class="status-card">Nome</th>
+				<th class="status-card">Idade</th>
+				<th class="status-card">Senha</th>
+				<th class="status-card">Nível de Acesso</th>
+				<th class="status-card">BTN</th>
+			</tr>			
+			<tr th:each="pessoa, stat : ${pessoas}">
+				<td class="gps-info" th:text="${stat.index()}"></td>
+				<td class="gps-info" th:text="${pessoa.codigo}"></td>
+			    <td class="gps-info" th:text="${pessoa.nome}"></td>
+			    <td class="gps-info" th:text="${pessoa.idade}"></td>
+				<td class="gps-info" th:text="${pessoa.senha}"></td>
+				<td class="gps-info" th:text="${pessoa.nivelAcesso}"></td>
+				<td><a th:href="@{/dashboard/{cod}(cod=${pessoa.codigo})}">Selecionar</a></td>
+				<td><input type="tel" id="indexValue" th:value="${stat.index}"/></td>
+			</tr>
+		</table>
+    </div>
+
+    <script>
+        // Exemplo de simulação de dados dinâmicos
+        const tempoUso = document.getElementById("tempo-uso");
+        const gpsLocal = document.getElementById("gps-local");
+
+        // Atualizando os dados (poderia ser via AJAX, fetch etc.)
+        tempoUso.innerText = "25 min";
+        gpsLocal.innerText = "Av. Principal, 200 - Bairro, Cidade";
+    </script>
+</body>
+</html>
