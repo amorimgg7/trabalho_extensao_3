@@ -67,6 +67,10 @@
     </style>
 </head>
 <body>
+	<script>
+		console.log("Codigo "+[[${session.codigo}]]);
+		console.log("Nome "+"[[${session.nome}]]");
+	</script>
     <div class="dashboard-container">
         <h1>Dashboard de Aluguel de Patinete</h1>
 
@@ -107,15 +111,27 @@
 				<th class="status-card">Idade</th>
 				<th class="status-card">Senha</th>
 				<th class="status-card">Nível de Acesso</th>
-			</tr>
-			<tr th:each="pessoa : ${pessoas}">
-				<td class="gps-info" th:text="${pessoa[i].row()}"></td>
+				<th class="status-card">BTN</th>
+			</tr>		
+			<tr th:each="pessoa, stat : ${pessoas}">
+				<td class="gps-info" th:text="${stat.index}"></td>
 				<td class="gps-info" th:text="${pessoa.codigo}"></td>
-			    <td class="gps-info" th:text="${pessoa.nome}"></td>
-			    <td class="gps-info" th:text="${pessoa.idade}"></td>
+				<td class="gps-info" th:text="${pessoa.nome}"></td>
+				<td class="gps-info" th:text="${pessoa.idade}"></td>
 				<td class="gps-info" th:text="${pessoa.senha}"></td>
 				<td class="gps-info" th:text="${pessoa.nivelAcesso}"></td>
+				<td class="gps-info" ><a th:href="@{/dashboard/{cod}(cod=${pessoa.codigo})}">Selecionar 1</a></td>
+				<form method="post">
+				<td class="gps-info">
+					<input type="tel" name="nomePessoa" id="nomePessoa" th:value="${pessoa.nome}"/>
+					<input type="tel" name="senhaPessoa" id="senhaPessoa" th:value="${pessoa.senha}"/>
+					<input type="submit" value="Selecionar 2"/>
+				</td>
+				</form>
 			</tr>
+					
+					
+					
 		</table>
     </div>
 

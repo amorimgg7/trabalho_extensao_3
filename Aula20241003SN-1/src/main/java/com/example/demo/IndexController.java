@@ -6,8 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class IndexController {
@@ -42,14 +43,25 @@ public class IndexController {
 	    return "index2";
 	}
 	
-	@GetMapping("/index2/{nome}/{senha}")
-	public String index2(@PathVariable("nome") String nome, @PathVariable("senha") String senha, Model model) {
+	@GetMapping("{nome}/{senha}")
+	public String index2(@PathVariable("nome") String nome, @PathVariable("senha") String senha, Model model, jakarta.servlet.http.HttpSession session) {
 	    try {
+	    	Pessoa pessoa = pnet.login(nome, senha).execute().body();
 	        model.addAttribute("pessoas", pnet.login(nome, senha).execute().body());
+	        session.setAttribute("codigo", pessoa.codigo);
+	        session.setAttribute("nome", pessoa.nome);
+	        if(senha != pessoa.senha) {
+	        	model.addAttribute("pessoas", null);
+	            session.removeAttribute("codigo");
+	            session.removeAttribute("nome");
+	        }
+	        if(pessoa.nivelAcesso == 5) {
+	        	return "/gestor";
+	        }
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }
-	    return "index2";
+	    return "/index";
 	}
 	
 	/*
@@ -72,8 +84,6 @@ public class IndexController {
 	}
 */
 
-	
-	
 	@GetMapping("/dashboard")
 	public String dashboard(Model model) {
 		try {
@@ -84,7 +94,7 @@ public class IndexController {
 		return "dashboard";
 	}
 	
-	@PostMapping("/dashboard/{nome}/{senha}")
+	@GetMapping("/dashboard/{nome}/{senha}")
 	public String dashboard(@PathVariable("nome") String nome, @PathVariable("senha") String senha, Model model) {
 	    try {
 	        model.addAttribute("pessoas", pnet.login(nome, senha).execute().body());
@@ -93,6 +103,7 @@ public class IndexController {
 	    }
 	    return "dashboard";
 	}
+	
 	
 	
 	

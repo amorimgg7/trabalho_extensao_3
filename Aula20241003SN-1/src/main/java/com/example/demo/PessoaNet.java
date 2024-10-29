@@ -15,7 +15,7 @@ public interface PessoaNet {
     Call<Pessoa> obter(@Path(value = "codigo") Integer codigo);
     
     @GET("login/{nome}/{senha}")
-    Call<Void> login(@Path(value = "nome") String nome, @Path(value = "senha") String senha);
+    Call<Pessoa> login(@Path(value = "nome") String nome, @Path(value = "senha") String senha);
     
     @GET("pessoa")
     Call<List<Pessoa>> obterTodos();
