@@ -50,11 +50,11 @@ public class IndexController {
 	        model.addAttribute("pessoas", pnet.login(nome, senha).execute().body());
 	        session.setAttribute("codigo", pessoa.codigo);
 	        session.setAttribute("nome", pessoa.nome);
-	        if(senha != pessoa.senha) {
+	        /*if(senha != pessoa.senha) {
 	        	model.addAttribute("pessoas", null);
 	            session.removeAttribute("codigo");
 	            session.removeAttribute("nome");
-	        }
+	        }*/
 	        if(pessoa.nivelAcesso == 5) {
 	        	return "/gestor";
 	        }
