@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +58,7 @@ public class PessoaController {
 	@PutMapping("{codigo}")
 	public void alterar(@PathVariable Integer codigo,@RequestBody Pessoa p, 
 			            HttpServletResponse resp) {
-		if(p.codigo==codigo)
+		if(Objects.equals(p.codigo, codigo))
 			dao.save(p);
 		else
 			resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

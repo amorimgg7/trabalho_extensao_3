@@ -19,30 +19,38 @@ import jakarta.servlet.http.HttpServletResponse;
 @CrossOrigin(origins = "*")
 public class LoginController {
 
-	@Autowired
-	PessoaDAO dao;
-	
-	@GetMapping
-	public List<Pessoa> obterTodos(){
-		return dao.findAll();
-	}
-	
-	@PostMapping
-	public void login(@RequestBody Pessoa p) {
-		
-	}
-	
-	@GetMapping("{nome}/{senha}")
-	public Pessoa obter(@PathVariable("nome") String nome, @PathVariable("senha") String senha, HttpServletResponse resp) {
-	    Optional<Pessoa> p = dao.findByNomeAndSenha(nome, senha);
-	    if (p.isPresent()) {
-	        return p.get();
-	    } else {
-	        resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-	        return null;
-	    }
-	}
-	
+    @Autowired
+    PessoaDAO dao;
 
+    @GetMapping
+    public List<Pessoa> obterTodos() {
+        return dao.findAll();
+    }
 
+    @PostMapping
+    public void login(@RequestBody Pessoa p) {
+
+    }
+
+    @GetMapping("{nome}/{senha}")
+    public Pessoa obter(@PathVariable("nome") String nome, @PathVariable("senha") String senha, HttpServletResponse resp) {
+        Optional<Pessoa> p = dao.findByNomeAndSenha(nome, senha);
+        if (p.isPresent()) {
+            return p.get();
+        } else {
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return null;
+        }
+    }
+
+    @PostMapping("/cadastro")
+    public Pessoa cadastrar(@RequestBody Pessoa p, HttpServletResponse resp) {
+        if (dao.existsByNome(p.getNome())) {
+            resp.setStatus(HttpServletResponse.SC_CONFLICT); // Conflito se o nome já existir
+            return null;
+        } else {
+            return dao.save(p);
+        }
+
+    }
 }

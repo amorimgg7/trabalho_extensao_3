@@ -40,7 +40,7 @@ public class Pessoa {
 		this.senha = senha;
 	}
 	
-	public Integer setNivelAcesso() {
+	public Integer getNivelAcesso() {
 		return nivelAcesso;
 	}
 	
@@ -49,13 +49,5 @@ public class Pessoa {
 	}
 
 	public Pessoa() {
-    }
-
-    public Pessoa(Integer codigo, String nome, Integer idade, String senha, Integer nivelAcesso) {
-        this.codigo = codigo;
-        this.nome = nome;
-        this.idade = idade;
-        this.senha = senha;
-        this.nivelAcesso = nivelAcesso;
     }
 }

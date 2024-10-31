@@ -1,8 +1,4 @@
 <html>
-	<body>
-		<h1>Ola mundo</h1>
-	</body>
-	
 	<table border="1">
 		<tr>
 			<th>i</th>
@@ -23,18 +19,11 @@
 			<td><a th:href="@{/index2/{cod}(cod=${pessoa.codigo})}">Selecionar</a></td>
 			<td><input type="tel" id="indexValue" th:value="${stat.index}"/></td>
 		</tr>
-		
-		
-		
 	</table>
-	
-	
-	
 	
 	<!-- "Voltar" button -->
 	<button id="btnVoltar"  onclick="window.history.back()">Voltar</button>
 	
-
 	<script>
 	    // Get the stat.index value passed from Thymeleaf
 	    var currentIndex = document.getElementById('indexValue').value; // Default value is 0 in case stat.index is not available
