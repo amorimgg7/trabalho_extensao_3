@@ -1,0 +1,85 @@
+<html>
+	<head>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+		<script>
+		  const ctx = document.getElementById('myChart');
+
+		  const data = {
+		    labels: [
+		      'Red',
+		      'Blue',
+		      'Yellow'
+		    ],
+		    datasets: [{
+		      label: 'My First Dataset',
+		      data: [300, 50, 100],
+		      backgroundColor: [
+		        'rgb(255, 99, 132)',
+		        'rgb(54, 162, 235)',
+		        'rgb(255, 205, 86)'
+		      ],
+		      hoverOffset: 4
+		    }]
+		  };
+		  
+		  new Chart(ctx, {
+		    type: 'doughnut',
+		    data: data,
+		  });
+		  
+		  
+		  
+		</script>
+
+	</head>
+	<body>
+		<h1>Ola mundo</h1>
+	</body>
+	<div>
+	  <canvas id="myChart" style="width:50px;height:50px;"></canvas>
+	</div>
+	<table border="1">
+		<tr>
+			<th>i</th>
+			<th>Codigo</th>
+			<th>Nome</th>
+			<th>Idade</th>
+			<th>Senha</th>
+			<th>Nivel de Acesso</th>
+			<th>BTN</th>
+		</tr>
+		<tr th:each="pessoa, stat : ${pessoas}">
+			<td th:text="${stat.index}"></td>
+			<td th:text="${pessoa.codigo}"></td>
+		    <td th:text="${pessoa.nome}"></td>
+		    <td th:text="${pessoa.idade}"></td>
+			<td th:text="${pessoa.senha}"></td>
+			<td th:text="${pessoa.nivelAcesso}"></td>
+			<td><a th:href="@{/index/{cod}(cod=${pessoa.codigo})}">Selecionar</a></td>
+			<td><input type="tel" id="indexValue" th:value="${stat.index}"/></td>
+		</tr>
+		
+		
+		
+	</table>
+	
+	
+	
+	
+	<!-- "Voltar" button -->
+	<button id="btnVoltar"  onclick="window.history.back()">Voltar</button>
+	
+
+	<script>
+	    // Get the stat.index value passed from Thymeleaf
+	    var currentIndex = document.getElementById('indexValue').value; // Default value is 0 in case stat.index is not available
+
+	    // Control the visibility of the "Voltar" button
+	    if (currentIndex > 1) {
+	        document.getElementById('btnVoltar').style.display = 'none';											
+	    } else {
+	        document.getElementById('btnVoltar').style.display = 'block';
+	    }
+	</script>
+</html>

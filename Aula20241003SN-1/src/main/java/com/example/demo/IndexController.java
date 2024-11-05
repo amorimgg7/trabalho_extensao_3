@@ -47,9 +47,14 @@ public class IndexController {
 	public String index2(@PathVariable("nome") String nome, @PathVariable("senha") String senha, Model model, jakarta.servlet.http.HttpSession session) {
 	    try {
 	    	Pessoa pessoa = pnet.login(nome, senha).execute().body();
-	        model.addAttribute("pessoas", pnet.login(nome, senha).execute().body());
-	        session.setAttribute("codigo", pessoa.codigo);
+	        Bicicleta bicicleta = pnet
+	    	model.addAttribute("pessoas", pnet.login(nome, senha).execute().body());
+	        session.setAttribute("codigoPessoa", pessoa.codigo);
+	        session.setAttribute("codigoBicicleta", "3");
+	        session.setAttribute("codigoAluguel", "1");
+	        session.setAttribute("codigoCarteira", "1");
 	        session.setAttribute("nome", pessoa.nome);
+	        
 	        /*if(senha != pessoa.senha) {
 	        	model.addAttribute("pessoas", null);
 	            session.removeAttribute("codigo");
@@ -88,6 +93,7 @@ public class IndexController {
 	public String dashboard(Model model) {
 		try {
 			model.addAttribute("pessoas", pnet.obterTodos().execute().body());
+			
 		} catch (IOException e) {
 			System.out.println("Erro");
 		}

@@ -15,11 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.HttpServletResponse;
-/*
- * Dentro deste arquivo deve esperar duas chamadas da API, 
- * cadastrar pessoa
- * editar pessoa
- * */
+
 @RestController
 @RequestMapping("/pessoa")
 @CrossOrigin(origins = "*")

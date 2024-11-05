@@ -13,6 +13,6 @@ public interface PessoaDAO extends JpaRepository<Pessoa, Integer>{
  * AtualizaCadastro
  * */
 	Optional<Pessoa> findByNomeAndSenha(String nome, String senha);
-	Optional<Pessoa> findByNomeAndSenha2(String nome, String senha);
+	//Optional<Pessoa> findByNomeAndSenha2(String nome, String senha);
 
 }
