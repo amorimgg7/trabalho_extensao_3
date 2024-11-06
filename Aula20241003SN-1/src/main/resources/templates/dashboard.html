@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<!--<script>location.href="localhost:8080/dashboard";</script>-->
+    <!--<script>location.href="localhost:8080/dashboard";</script>-->
     <title>Dashboard de Aluguel de Patinete</title>
     <style>
         body {
@@ -12,6 +13,7 @@
             margin: 0;
             padding: 20px;
         }
+
         .dashboard-container {
             max-width: 800px;
             margin: 0 auto;
@@ -20,15 +22,18 @@
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
         h1 {
             text-align: center;
             color: #333;
         }
+
         .status-info {
             display: flex;
             justify-content: space-between;
             margin: 20px 0;
         }
+
         .status-card {
             flex: 1;
             background-color: #eaeaea;
@@ -37,14 +42,16 @@
             text-align: center;
             margin: 0 10px;
         }
+
         .status-card h2 {
             color: #666;
         }
+
         .status-card p {
             font-size: 1.5rem;
             color: #333;
         }
-		
+
         .gps-info {
             margin-top: 20px;
             background-color: #e0f7fa;
@@ -52,59 +59,63 @@
             border-radius: 8px;
             text-align: center;
         }
+
         .gps-info h3 {
             color: #00796b;
         }
+
         .gps-info p {
             color: #004d40;
             font-size: 1.2rem;
         }
+
         .not-alugado {
             text-align: center;
             font-size: 1.2rem;
             color: #d32f2f;
         }
     </style>
-	
-	<script>
-				        window.onload = function() {
-				            // Obtém o valor do código da sessão
-							const codigoPessoa = [[${session.codigoPessoa}]] ; // Use a sintaxe correta do Thymeleaf para obter o valor
-							const codigoBicicleta = [[${session.codigoBicicleta}]] ;
-							const codigoAluguel = [[${session.codigoAluguel}]] ;
-							const codigoCarteira = [[${session.codigoCarteira}]] ;
-							
-							console.log("Pessoa: "+[[${session.codigoPessoa}]]);
-							console.log("Bicicleta: "+[[${session.codigoBicicleta}]]);
-							console.log("Aluguel: "+[[${session.codigoAluguel}]]);
-							console.log("Carteira: "+[[${session.codigoCarteira}]]);
-				            // Verifica se o código é maior que 0 ou não nulo
-				            if (codigoPessoa == null || codigoPessoa == "null") {
-				                // Redireciona para a página de dashboard
-				                window.location.href = 'http://localhost:8081/'; // Altere o caminho conforme necessário
-				            }
-							
-							if (codigoBicicleta == null || codigoBicicleta < 1) {
-										document.getElementById("statusBicicleta").style.display = "none";
-										console.log("Sem Bike");        
-									}else{
-										console.log("Com Bike");
-										document.getElementById("statusBicicleta").style.visibility = "visible";
-									}
-									
-				        }
-				    </script>
+
+    <script>
+        window.onload = function () {
+            // Obtém o valor do código da sessão
+            const codigoPessoa = [[${ session.codigoPessoa }]]; // Use a sintaxe correta do Thymeleaf para obter o valor
+            const codigoBicicleta = [[${ session.codigoBicicleta }]];
+            const codigoAluguel = [[${ session.codigoAluguel }]];
+            const codigoCarteira = [[${ session.codigoCarteira }]];
+
+            console.log("Pessoa: " + [[${ session.codigoPessoa }]]);
+            console.log("Bicicleta: " + [[${ session.codigoBicicleta }]]);
+            console.log("Aluguel: " + [[${ session.codigoAluguel }]]);
+            console.log("Carteira: " + [[${ session.codigoCarteira }]]);
+            // Verifica se o código é maior que 0 ou não nulo
+            if (codigoPessoa == null || codigoPessoa == "null") {
+                // Redireciona para a página de dashboard
+                window.location.href = 'http://localhost:8081/'; // Altere o caminho conforme necessário
+            }
+
+            if (codigoBicicleta == null || codigoBicicleta < 1) {
+                document.getElementById("statusBicicleta").style.display = "none";
+                console.log("Sem Bike");
+            } else {
+                console.log("Com Bike");
+                document.getElementById("statusBicicleta").style.visibility = "visible";
+            }
+
+        }
+    </script>
 </head>
+
 <body>
     <div class="dashboard-container">
         <h1>Dashboard de Aluguel de Patinete</h1>
 
-		<div class="gps-info">
-			<h3>Olá, <span th:text="${session.nome} ">, aproveite nossos serviços</h3>
-		    <p>...status...atualizações...financeiro...</p>
-		</div>
-		
-        
+        <div class="gps-info">
+            <h3>Olá, <span th:text="${session.nome} ">, aproveite nossos serviços</h3>
+            <p>...status...atualizações...financeiro...</p>
+        </div>
+
+
         <div class="status-info" id="statusBicicleta">
             <div class="status-card">
                 <h2>Bicicleta: <span th:text="${session.codigoBicicleta}">teste</span></h2>
@@ -112,55 +123,55 @@
             </div>
             <div class="status-card">
                 <h2>Tempo de Uso</h2>
-                <p id="tempo-uso">15 min</p> 
+                <p id="tempo-uso">15 min</p>
             </div>
         </div>
-		
-		
-				
+
+
+
 
         <div class="gps-info">
             <h3>Localização Atual do Patinete</h3>
-            <p id="gps-local">Rua Exemplo, 123 - Centro, Cidade</p> 
+            <p id="gps-local">Rua Exemplo, 123 - Centro, Cidade</p>
         </div>
 
         <!-- Se o usuário não estiver com patinete alugado -->
-        
+
         <div class="not-alugado">
             <p>Você não está com nenhum patinete alugado no momento.</p>
         </div>
-        
-		
-		<table>
-			<tr>
-				<th class="status-card">i</th>
-				<th class="status-card">Codigo</th>
-				<th class="status-card">Nome</th>
-				<th class="status-card">Idade</th>
-				<th class="status-card">Senha</th>
-				<th class="status-card">Nível de Acesso</th>
-				<th class="status-card">BTN</th>
-			</tr>		
-			<tr th:each="pessoa, stat : ${pessoas}">
-				<td class="gps-info" th:text="${stat.index}"></td>
-				<td class="gps-info" th:text="${pessoa.codigo}"></td>
-				<td class="gps-info" th:text="${pessoa.nome}"></td>
-				<td class="gps-info" th:text="${pessoa.idade}"></td>
-				<td class="gps-info" th:text="${pessoa.senha}"></td>
-				<td class="gps-info" th:text="${pessoa.nivelAcesso}"></td>
-				<td class="gps-info" ><a th:href="@{/dashboard/{cod}(cod=${pessoa.codigo})}">Selecionar 1</a></td>
-				<form method="post">
-				<td class="gps-info">
-					<input type="tel" name="nomePessoa" id="nomePessoa" th:value="${pessoa.nome}"/>
-					<input type="tel" name="senhaPessoa" id="senhaPessoa" th:value="${pessoa.senha}"/>
-					<input type="submit" value="Selecionar 2"/>
-				</td>
-				</form>
-			</tr>
-					
-					
-					
-		</table>
+
+
+        <table>
+            <tr>
+                <th class="status-card">i</th>
+                <th class="status-card">Codigo</th>
+                <th class="status-card">Nome</th>
+                <th class="status-card">Idade</th>
+                <th class="status-card">Senha</th>
+                <th class="status-card">Nível de Acesso</th>
+                <th class="status-card">BTN</th>
+            </tr>
+            <tr th:each="pessoa, stat : ${pessoas}">
+                <td class="gps-info" th:text="${stat.index}"></td>
+                <td class="gps-info" th:text="${pessoa.codigo}"></td>
+                <td class="gps-info" th:text="${pessoa.nome}"></td>
+                <td class="gps-info" th:text="${pessoa.idade}"></td>
+                <td class="gps-info" th:text="${pessoa.senha}"></td>
+                <td class="gps-info" th:text="${pessoa.nivelAcesso}"></td>
+                <td class="gps-info"><a th:href="@{/dashboard/{cod}(cod=${pessoa.codigo})}">Selecionar 1</a></td>
+                <form method="post">
+                    <td class="gps-info">
+                        <input type="tel" name="nomePessoa" id="nomePessoa" th:value="${pessoa.nome}" />
+                        <input type="tel" name="senhaPessoa" id="senhaPessoa" th:value="${pessoa.senha}" />
+                        <input type="submit" value="Selecionar 2" />
+                    </td>
+                </form>
+            </tr>
+
+
+
+        </table>
     </div>
 
     <script>
@@ -171,9 +182,10 @@
         // Atualizando os dados (poderia ser via AJAX, fetch etc.)
         tempoUso.innerText = "25 min";
         gpsLocal.innerText = "Av. Principal, 200 - Bairro, Cidade";
-		
-		
-		
+
+
+
     </script>
 </body>
+
 </html>
