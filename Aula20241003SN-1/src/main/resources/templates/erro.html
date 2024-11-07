@@ -50,6 +50,7 @@
 <body>
     <div class="error-container">
         <h1>Erro</h1>
+		<h1>Erro: <span th:text="${session.codErro}"></span></h1>
         <p th:text="${erro}">Mensagem de erro não disponível.</p>
         <button onclick="window.history.back()">Voltar</button>
     </div>

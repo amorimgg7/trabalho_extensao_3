@@ -46,9 +46,11 @@ public class IndexController {
         try {
             Pessoa pessoa = pnet.login(nome, senha).execute().body();
             if (pessoa == null) {
-                throw new RuntimeException("O Login falhou, pessoa é null");
+            	session.setAttribute("codigoErro", 1);
+            	return "/index";
             }
-            Bicicleta bicicleta = pnet
+            
+            
             model.addAttribute("pessoas", pessoa);
             session.setAttribute("codigoPessoa", pessoa.codigo);
             session.setAttribute("codigoBicicleta", "3");
@@ -100,20 +102,40 @@ public class IndexController {
         return "dashboard";
     }
 
-    @GetMapping("/dashboard/{nome}/{senha}")
-    @SuppressWarnings("CallToPrintStackTrace")
-    public String dashboard(@PathVariable("nome") String nome, @PathVariable("senha") String senha, Model model) {
-        try {
-            model.addAttribute("pessoas", pnet.login(nome, senha).execute().body());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return "dashboard";
-    }
+    
 
     @RequestMapping("/erro")
     public String handleError() {
         return "erro";
     }
+    
+    
+    @GetMapping("erro/{cod}")
+    @SuppressWarnings("CallToPrintStackTrace")
+    public String erro(@PathVariable("cod") String cod, Model model, jakarta.servlet.http.HttpSession session) {
+    	switch (cod) {
+    		case "1":
+    			session.setAttribute("codErro", "Não foi possível fazer Login");
+    			break;
+    		case "2":
+    			session.setAttribute("codErro", "Não foi possível Cadastrar");
+    			break;
+    		case "3":
+    			session.setAttribute("codErro", "Não foi possível Alugar");
+    			break;
+    		case "4":
+    			session.setAttribute("codErro", "Não foi possível Pagar");
+    			break;
+    		case "5":
+    			session.setAttribute("codErro", "Não foi possível Devolver");
+    			break;
+    		default:
+    			session.setAttribute("codErro", "Código ("+cod+ "), Desconhecido");
+    			break;
+    	}
+
+        return "erro";
+    }
+    
 
 }

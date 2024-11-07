@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROTOTIPO</title>
+    <!-- Link do Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .section {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+
+        .form-container {
+            max-width: 400px;
+            margin: auto;
+            margin-top: 50px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f8f9fa;
+        }
+
+        button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+
+
+
+        <div id="login" class="section active form-container">
+
+
+            <h1>Bem-vindo, <span th:text="${session.codigoPessoa}+' '+${session.nome} "></span></h1>
+
+            <script>
+                window.onload = function () {
+                    // Obtém o valor do código da sessão
+                    const codigoPessoa = '[[${ session.codigoPessoa }]]'; // Use a sintaxe correta do Thymeleaf para obter o valor
+                    console.log('[[${ session.codigoPessoa }]]');
+                    // Verifica se o código é maior que 0 ou não nulo
+					window.location.href = '/erro/'+'[[${ session.codigoErro }]]';
+                    if (codigoPessoa !== null && codigoPessoa > 0) {
+                        // Redireciona para a página de dashboard
+                        //window.location.href = '/dashboard'; // Altere o caminho conforme necessário
+                    }
+                }
+            </script>
+
+
+            <h3 class="text-center">Login</h3>
+            <form>
+                <div class="form-group">
+                    <label for="nameIdLogin">Nome ou ID:</label>
+                    <input type="text" class="form-control" id="nameIdLogin" name="nameIdLogin"
+                        placeholder="Digite seu nome ou ID" oninput="updateLogin()">
+                </div>
+                <div class="form-group">
+                    <label for="senhaLogin">Senha:</label>
+                    <input type="text" class="form-control" id="senhaLogin" name="senhaLogin"
+                        placeholder="Digite sua senha" oninput="updateLogin()">
+                </div>
+                <a id="loginLink" href="#">Entrar</a>
+            </form>
+
+            <script>
+                console.log("Nome: " + session);
+                function updateLogin() {
+                    const nameIdValue = document.getElementById("nameIdLogin").value;
+                    const senhaLogin = document.getElementById("senhaLogin").value;
+                    const loginLink = document.getElementById("loginLink");
+                    loginLink.href = `/${encodeURIComponent(nameIdValue)}/${encodeURIComponent(senhaLogin)}`;
+                }
+            </script>
+
+        </div>
+
+        <div id="cadastro" class="section form-container">
+            <h3 class="text-center">Cadastro</h3>
+            <form id="cadastroForm">
+                <div class="form-group">
+                    <label for="nomeCadastro">Nome Completo:</label>
+                    <input type="text" class="form-control" id="nomeCadastro" name="nomeCadastro"
+                        placeholder="Digite seu nome" oninput="updateCadastro()">
+                </div>
+                <div class="form-group">
+                    <label for="cpfCadastro">CPF:</label>
+                    <input type="text" class="form-control" id="cpfCadastro" name="cpfCadastro"
+                        placeholder="Digite seu CPF" oninput="updateCadastro()">
+                </div>
+                <div class="form-group">
+                    <label for="idadeCadastro">Idade:</label>
+                    <input type="text" class="form-control" id="idadeCadastro" name="idadeCadastro"
+                        placeholder="Digite sua idade" oninput="updateCadastro()">
+                </div>
+                <div class="form-group">
+                    <label for="emailCadastro">Email:</label>
+                    <input type="email" class="form-control" id="emailCadastro" name="emailCadastro"
+                        placeholder="Digite seu email">
+                </div>
+                <div class="form-group">
+                    <label for="senhaCadastro">Senha:</label>
+                    <input type="password" class="form-control" id="senhaCadastro" name="senhaCadastro"
+                        placeholder="Crie uma senha">
+                </div>
+                <div class="form-group">
+                    <label for="telefoneCadastro">Telefone:</label>
+                    <input type="text" class="form-control" id="telefoneCadastro" name="telefoneCadastro"
+                        placeholder="Digite seu telefone">
+                </div>
+                <div class="form-group">
+                    <label for="enderecoCadastro">Endereço:</label>
+                    <input type="text" class="form-control" id="enderecoCadastro" name="enderecoCadastro"
+                        placeholder="Digite seu endereço">
+                </div>
+				<a id="cadastroLink" href="#">Entrar</a>
+                <button type="button" class="btn btn-success btn-block" onclick="cadastrarPessoa()">Cadastrar</button>
+            </form>
+        </div>
+
+        <script>
+			
+			function updateCadastro() {
+				const nomeCadastro = document.getElementById("nomeCadastro").value;
+			    const cpfCadastro = document.getElementById("cpfCadastro").value;
+			    const idadeCadastro = document.getElementById("idadeCadastro").value;
+			                    
+				cadastroLink.href = `cadastro/${encodeURIComponent(nomeCadastro)}/${encodeURIComponent(cpfCadastro)}/${encodeURIComponent(idadeCadastro)}`;
+			}
+							
+            function cadastrarPessoa() {
+                const nome = document.getElementById('nomeCadastro').value;
+                const cpf = document.getElementById('cpfCadastro').value;
+                const idade = document.getElementById('idadeCadastro').value;
+                const email = document.getElementById('emailCadastro').value;
+                const senha = document.getElementById('senhaCadastro').value;
+                const telefone = document.getElementById('telefoneCadastro').value;
+                const endereco = document.getElementById('enderecoCadastro').value;
+                const nivelAcesso = 1; // Nível de acesso padrão-Cliente
+
+                fetch('/pessoa', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ nome, cpf, idade, email, senha, telefone, endereco, nivelAcesso})
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        alert('Cadastro realizado com sucesso!');
+                        document.getElementById('cadastroForm').reset();
+                    })
+                    .catch(error => {
+                        console.error('Erro ao cadastrar:', error);
+                    });
+            }
+        </script>
+
+        <div id="recuperacao" class="section form-container">
+            <h3 class="text-center">Recuperação de Senha</h3>
+            <form>
+                <div class="form-group">
+                    <label for="emailRecuperacao">Email:</label>
+                    <input type="email" class="form-control" id="emailRecuperacao" name="emailRecuperacao"
+                        placeholder="Digite seu email">
+                </div>
+                <button type="submit" class="btn btn-info btn-block">Recuperar Senha</button>
+            </form>
+        </div>
+
+
+        <div class="text-center mt-3 mb-4">
+            <button class="btn btn-primary" onclick="showSection('login')">Login</button>
+            <button class="btn btn-secondary" onclick="showSection('cadastro')">Cadastro</button>
+            <button class="btn btn-info" onclick="showSection('recuperacao')">Recuperar Senha</button>
+        </div>
+
+    </div>
+
+    <!-- JavaScript do Bootstrap e jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        function showSection(sectionId) {
+            // Esconde todas as seções
+            document.querySelectorAll('.section').forEach(function (section) {
+                section.classList.remove('active');
+            });
+
+            // Mostra a seção selecionada
+            document.getElementById(sectionId).classList.add('active');
+        }
+    </script>
+</body>
+
+</html>

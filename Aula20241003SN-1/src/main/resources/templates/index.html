@@ -41,18 +41,24 @@
         <div id="login" class="section active form-container">
 
 
-            <h1>Bem-vindo, <span th:text="${session.codigo}+${session.nome} "></span></h1>
+            <h1>Bem-vindo, <span th:text="${session.codigoPessoa}+' '+${session.nome} "></span></h1>
 
             <script>
                 window.onload = function () {
                     // Obtém o valor do código da sessão
-                    const codigoPessoa = [[${ session.codigoPessoa }]]; // Use a sintaxe correta do Thymeleaf para obter o valor
-                    console.log([[${ session.codigoPessoa }]]);
+                    const codigoPessoa = '[[${ session.codigoPessoa }]]'; // Use a sintaxe correta do Thymeleaf para obter o valor
+					const codigoErro = '[[${ session.codigoErro }]]';
+					console.log('[[${ session.codigoPessoa }]]');
                     // Verifica se o código é maior que 0 ou não nulo
+					
                     if (codigoPessoa !== null && codigoPessoa > 0) {
                         // Redireciona para a página de dashboard
                         window.location.href = '/dashboard'; // Altere o caminho conforme necessário
-                    }
+                    }else
+					if(codigoErro !== ""){
+						console.log('[[${ session.codigoErro }]]');
+						window.location.href = '/erro/'+'[[${ session.codigoErro }]]';
+					}
                 }
             </script>
 
@@ -62,19 +68,19 @@
                 <div class="form-group">
                     <label for="nameIdLogin">Nome ou ID:</label>
                     <input type="text" class="form-control" id="nameIdLogin" name="nameIdLogin"
-                        placeholder="Digite seu nome ou ID" oninput="updateLink()">
+                        placeholder="Digite seu nome ou ID" oninput="updateLogin()">
                 </div>
                 <div class="form-group">
                     <label for="senhaLogin">Senha:</label>
                     <input type="text" class="form-control" id="senhaLogin" name="senhaLogin"
-                        placeholder="Digite sua senha" oninput="updateLink()">
+                        placeholder="Digite sua senha" oninput="updateLogin()">
                 </div>
                 <a id="loginLink" href="#">Entrar</a>
             </form>
 
             <script>
-                console.log("Nome" + session);
-                function updateLink() {
+                console.log("Nome: " + session);
+                function updateLogin() {
                     const nameIdValue = document.getElementById("nameIdLogin").value;
                     const senhaLogin = document.getElementById("senhaLogin").value;
                     const loginLink = document.getElementById("loginLink");
@@ -90,17 +96,17 @@
                 <div class="form-group">
                     <label for="nomeCadastro">Nome Completo:</label>
                     <input type="text" class="form-control" id="nomeCadastro" name="nomeCadastro"
-                        placeholder="Digite seu nome">
+                        placeholder="Digite seu nome" oninput="updateCadastro()">
                 </div>
                 <div class="form-group">
                     <label for="cpfCadastro">CPF:</label>
                     <input type="text" class="form-control" id="cpfCadastro" name="cpfCadastro"
-                        placeholder="Digite seu CPF">
+                        placeholder="Digite seu CPF" oninput="updateCadastro()">
                 </div>
                 <div class="form-group">
                     <label for="idadeCadastro">Idade:</label>
-                    <input type="number" class="form-control" id="idadeCadastro" name="idadeCadastro"
-                        placeholder="Digite sua idade">
+                    <input type="text" class="form-control" id="idadeCadastro" name="idadeCadastro"
+                        placeholder="Digite sua idade" oninput="updateCadastro()">
                 </div>
                 <div class="form-group">
                     <label for="emailCadastro">Email:</label>
@@ -122,11 +128,21 @@
                     <input type="text" class="form-control" id="enderecoCadastro" name="enderecoCadastro"
                         placeholder="Digite seu endereço">
                 </div>
+				<a id="cadastroLink" href="#">Entrar</a>
                 <button type="button" class="btn btn-success btn-block" onclick="cadastrarPessoa()">Cadastrar</button>
             </form>
         </div>
 
         <script>
+			
+			function updateCadastro() {
+				const nomeCadastro = document.getElementById("nomeCadastro").value;
+			    const cpfCadastro = document.getElementById("cpfCadastro").value;
+			    const idadeCadastro = document.getElementById("idadeCadastro").value;
+			                    
+				cadastroLink.href = `cadastro/${encodeURIComponent(nomeCadastro)}/${encodeURIComponent(cpfCadastro)}/${encodeURIComponent(idadeCadastro)}`;
+			}
+							
             function cadastrarPessoa() {
                 const nome = document.getElementById('nomeCadastro').value;
                 const cpf = document.getElementById('cpfCadastro').value;
