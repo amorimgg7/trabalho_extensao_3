@@ -10,11 +10,11 @@ import retrofit2.http.Path;
 
 public interface PessoaNet {
 
-    @GET("pessoa/{codigo}")
-    Call<Pessoa> obter(@Path(value = "codigo") Integer codigo);
+    @GET("pessoa/{cd_pessoa}")
+    Call<Pessoa> obter(@Path(value = "cd_pessoa") Integer cd_pessoa);
 
-    @GET("login/{nome}/{senha}")
-    Call<Pessoa> login(@Path(value = "nome") String nome, @Path(value = "senha") String senha);
+    @GET("login/{ds_nome}/{ds_senha}")
+    Call<Pessoa> login(@Path(value = "ds_nome") String ds_nome, @Path(value = "ds_senha") String ds_senha);
 
     @GET("pessoa")
     Call<List<Pessoa>> obterTodos();

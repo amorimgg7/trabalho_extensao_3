@@ -29,22 +29,22 @@ public class IndexController {
         return "index2";
     }
 
-    @GetMapping("/index2/{codigo}")
+    @GetMapping("/index2/{cd_pessoa}")
     @SuppressWarnings("CallToPrintStackTrace")
-    public String index2(@PathVariable("codigo") Integer codigo, Model model) {
+    public String index2(@PathVariable("cd_pessoa") Integer cd_pessoa, Model model) {
         try {
-            model.addAttribute("pessoas", pnet.obter(codigo).execute().body());
+            model.addAttribute("pessoas", pnet.obter(cd_pessoa).execute().body());
         } catch (IOException e) {
             e.printStackTrace();
         }
         return "index2";
     }
 
-    @GetMapping("{nome}/{senha}")
+    @GetMapping("{ds_nome}/{ds_senha}")
     @SuppressWarnings("CallToPrintStackTrace")
-    public String index2(@PathVariable("nome") String nome, @PathVariable("senha") String senha, Model model, jakarta.servlet.http.HttpSession session) {
+    public String index2(@PathVariable("ds_nome") String ds_nome, @PathVariable("ds_senha") String ds_senha, Model model, jakarta.servlet.http.HttpSession session) {
         try {
-            Pessoa pessoa = pnet.login(nome, senha).execute().body();
+            Pessoa pessoa = pnet.login(ds_nome, ds_senha).execute().body();
             if (pessoa == null) {
             	session.setAttribute("codigoErro", 1);
             	return "/index";
@@ -52,11 +52,11 @@ public class IndexController {
             
             
             model.addAttribute("pessoas", pessoa);
-            session.setAttribute("codigoPessoa", pessoa.codigo);
+            session.setAttribute("codigoPessoa", pessoa.cd_pessoa);
             session.setAttribute("codigoBicicleta", "3");
             session.setAttribute("codigoAluguel", "1");
             session.setAttribute("codigoCarteira", "1");
-            session.setAttribute("nome", pessoa.nome);
+            session.setAttribute("nome", pessoa.ds_nome);
 
             /*if(senha != pessoa.senha) {
 	        	model.addAttribute("pessoas", null);

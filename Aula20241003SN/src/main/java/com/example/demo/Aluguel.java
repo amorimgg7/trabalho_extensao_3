@@ -2,13 +2,23 @@ package com.example.demo;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 
 @Entity
-@DiscriminatorValue("ALUGUEL")
-public class Aluguel extends Pessoa{
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo")
+public class Aluguel {
 
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public Integer codigoAluguel;
+	
     public LocalDateTime data_aluguel;
     public LocalDateTime data_devolucao;
     public String local_retirada;

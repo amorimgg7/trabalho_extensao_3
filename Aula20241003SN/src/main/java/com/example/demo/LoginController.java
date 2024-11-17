@@ -32,9 +32,10 @@ public class LoginController {
 
     }
 
-    @GetMapping("{nome}/{senha}")
-    public Pessoa obter(@PathVariable("nome") String nome, @PathVariable("senha") String senha, HttpServletResponse resp) {
-        Optional<Pessoa> p = dao.findByNomeAndSenha(nome, senha);
+    @GetMapping("{ds_nome}/{ds_senha}")
+    public Pessoa obter(@PathVariable("ds_nome") String ds_nome, @PathVariable("ds_senha") String ds_senha, HttpServletResponse resp) {
+        System.out.println(ds_nome+" :: "+ds_senha);
+    	Optional<Pessoa> p = dao.findByNomeAndSenha(ds_nome, ds_senha);
         if (p.isPresent()) {
             return p.get();
         } else {

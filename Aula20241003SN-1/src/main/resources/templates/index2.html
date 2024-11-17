@@ -12,12 +12,12 @@
 	</tr>
 	<tr th:each="pessoa, stat : ${pessoas}">
 		<td th:text="${stat.index}"></td>
-		<td th:text="${pessoa.codigo}"></td>
-		<td th:text="${pessoa.nome}"></td>
-		<td th:text="${pessoa.idade}"></td>
-		<td th:text="${pessoa.senha}"></td>
+		<td th:text="${pessoa.cd_pessoa}"></td>
+		<td th:text="${pessoa.ds_nome}"></td>
+		
+		<td th:text="${pessoa.ds_senha}"></td>
 		<td th:text="${pessoa.nivelAcesso}"></td>
-		<td><a th:href="@{/index2/{cod}(cod=${pessoa.codigo})}">Selecionar</a></td>
+		<td><a th:href="@{/index2/{cod}(cod=${pessoa.cd_pessoa})}">Selecionar</a></td>
 		<td><input type="tel" id="indexValue" th:value="${stat.index}" /></td>
 	</tr>
 

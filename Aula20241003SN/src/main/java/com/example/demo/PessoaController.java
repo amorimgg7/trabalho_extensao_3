@@ -35,9 +35,9 @@ public class PessoaController {
         return dao.findAll();
     }
 
-    @GetMapping("{codigo}")
-    public Pessoa obter(@PathVariable("codigo") Integer codigo, HttpServletResponse resp) {
-        Optional<Pessoa> p = dao.findById(codigo);
+    @GetMapping("{cd_pessoa}")
+    public Pessoa obter(@PathVariable("cd_pessoa") Integer cd_pessoa, HttpServletResponse resp) {
+        Optional<Pessoa> p = dao.findById(cd_pessoa);
         if (p.isPresent()) {
             return p.get(); 
         }else {
@@ -46,9 +46,9 @@ public class PessoaController {
         }
     }
 
-    @DeleteMapping("{codigo}")
-    public void excluir(@PathVariable Integer codigo, HttpServletResponse resp) {
-        Optional<Pessoa> p = dao.findById(codigo);
+    @DeleteMapping("{cd_pessoa}")
+    public void excluir(@PathVariable Integer cd_pessoa, HttpServletResponse resp) {
+        Optional<Pessoa> p = dao.findById(cd_pessoa);
         if (p.isPresent()) {
             dao.delete(p.get()); 
         }else {
@@ -56,10 +56,10 @@ public class PessoaController {
         }
     }
 
-    @PutMapping("{codigo}")
-    public void alterar(@PathVariable Integer codigo, @RequestBody Pessoa p,
+    @PutMapping("{cd_pessoa}")
+    public void alterar(@PathVariable Integer cd_pessoa, @RequestBody Pessoa p,
             HttpServletResponse resp) {
-        if (Objects.equals(p.codigo, codigo)) {
+        if (Objects.equals(p.cd_pessoa, cd_pessoa)) {
             dao.save(p); 
         }else {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
