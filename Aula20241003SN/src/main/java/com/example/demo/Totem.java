@@ -1,7 +1,5 @@
 package com.example.demo;
 
-import java.time.LocalDateTime;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,28 +9,27 @@ import jakarta.persistence.InheritanceType;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Pessoa {
+public class Totem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Integer cd_pessoa;
-    public Integer nu_cpf;
-    public String ds_email;
-
-    public String ds_nome;
-    public Integer nu_telefone;
-    public LocalDateTime dt_nascimento;
-    public String ds_senha;
-
-    public Integer nivelAcesso;
+    public Integer cd_totem;
+    public String ds_totem;
+    public String ds_endereco;
+    public String local_1;
+    public String local_2;
+    public String local_3;
+    public String local_4;
+    public String local_5;
+    public String ds_status;
     public Boolean ativo;
 
-    public Integer getNivelAcesso() {
-        return nivelAcesso;
+    public String getStatus() {
+        return ds_status;
     }
 
-    public void setNivelAcesso(Integer nivelAcesso) {
-        this.nivelAcesso = nivelAcesso;
+    public void setStatus(String ds_status) {
+        this.ds_status = ds_status;
     }
 
     public Boolean getAtivo() {
@@ -42,5 +39,6 @@ public class Pessoa {
     public void setAtivo(Boolean ativo) {
         this.ativo = ativo;
     }
+
 
 }

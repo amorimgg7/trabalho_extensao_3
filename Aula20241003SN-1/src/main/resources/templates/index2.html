@@ -1,47 +1,73 @@
 <html>
 
-<table border="1">
-	<tr>
-		<th>Index</th>
-		<th>Código-Pessoa</th>
-		<th>Nome-Pessoa</th>
-		<th>Idade-Pessoa</th>
-		<th>Senha-Pessoa</th>
-		<th>Nivel de Acesso</th>
-		<th>BTN</th>
-	</tr>
-	<tr th:each="pessoa, stat : ${pessoas}">
-		<td th:text="${stat.index}"></td>
-		<td th:text="${pessoa.cd_pessoa}"></td>
-		<td th:text="${pessoa.ds_nome}"></td>
+<body>
+	<h1>Mapa de Classes</h1>
+
+	<table border="1" style="margin: 2pt; padding: 2pt;">
+		<tr>
+			<th class="status-card">Pessoa</th>
+			<th class="status-card">Codigo</th>
+			<th class="status-card">Nome</th>
+			<th class="status-card">Idade</th>
+			<th class="status-card">Senha</th>
+			<th class="status-card">Nível de Acesso</th>
+			<th class="status-card">BTN</th>
+		</tr>
+		<tr th:each="pessoa, stat : ${pessoas}">
+			<td class="gps-info" th:text="${stat.index}"></td>
+			<td class="gps-info" th:text="${pessoa.cd_pessoa}"></td>
+			<td class="gps-info" th:text="${pessoa.ds_nome}"></td>
+			<td class="gps-info" th:text="${pessoa.dt_nascimento}"></td>
+			<td class="gps-info" th:text="${pessoa.ds_senha}"></td>
+			<td class="gps-info" th:text="${pessoa.nivelAcesso}"></td>
+			<td class="gps-info"><a th:href="@{/dashboard/{cod}(cod=${pessoa.cd_pessoa})}">Selecionar 1</a></td>
+		</tr>
+	</table>
+	
+	<table border="1" style="margin: 2pt; padding: 2pt;">
+		<tr>
+			<th class="status-card">Bicicleta</th>
+			<th class="status-card">Codigo</th>
+			<th class="status-card">Descrição</th>
+			<th class="status-card">	</th>
+			<th class="status-card">	</th>
+			<th class="status-card">	</th>
+			<th class="status-card">BTN</th>
+		</tr>
+		<tr th:each="bicicleta, stat : ${bicicletas}">
+			<td class="gps-info" th:text="${stat.index}"></td>
+			<td class="gps-info" th:text="${bicicleta.cd_bicicleta}"></td>
+			<td class="gps-info" th:text="${bicicleta.cd_bicicleta}"></td>
+			<td class="gps-info" th:text="${bicicleta.cd_bicicleta}"></td>
+			<td class="gps-info" th:text="${bicicleta.cd_bicicleta}"></td>
+			<td class="gps-info" th:text="${bicicleta.cd_bicicleta}"></td>
+			<td class="gps-info"><a th:href="@{/dashboard/{cod}(cod=${bicicleta.cd_bicicleta})}">Selecionar 1</a></td>
+		</tr>
+	</table>
 		
-		<td th:text="${pessoa.ds_senha}"></td>
-		<td th:text="${pessoa.nivelAcesso}"></td>
-		<td><a th:href="@{/index2/{cod}(cod=${pessoa.cd_pessoa})}">Selecionar</a></td>
-		<td><input type="tel" id="indexValue" th:value="${stat.index}" /></td>
-	</tr>
+	<table border="1" style="margin: 2pt; padding: 2pt;">
+		<tr>
+			<th class="status-card">Totem</th>
+			<th class="status-card">Codigo</th>
+			<th class="status-card">Descrição</th>
+			<th class="status-card">	</th>
+			<th class="status-card">	</th>
+			<th class="status-card">	</th>
+			<th class="status-card">BTN</th>
+		</tr>
+		<tr th:each="totem, stat : ${totems}">
+			<td class="gps-info" th:text="${stat.index}"></td>
+			<td class="gps-info" th:text="${totem.cd_totem}"></td>
+			<td class="gps-info" th:text="${totem.cd_totem}"></td>
+			<td class="gps-info" th:text="${totem.cd_totem}"></td>
+			<td class="gps-info" th:text="${totem.cd_totem}"></td>
+			<td class="gps-info" th:text="${totem.cd_totem}"></td>
+			<td class="gps-info"><a th:href="@{/dashboard/{cod}(cod=${totem.cd_totem})}">Selecionar 1</a></td>
+		</tr>
+	</table>
+
+</body>
 
 
-
-</table>
-
-
-
-
-<!-- "Voltar" button -->
-<button id="btnVoltar" onclick="window.history.back()">Voltar</button>
-
-
-<script>
-	// Get the stat.index value passed from Thymeleaf
-	var currentIndex = document.getElementById('indexValue').value; // Default value is 0 in case stat.index is not available
-
-	// Control the visibility of the "Voltar" button
-	if (currentIndex > 1) {
-		document.getElementById('btnVoltar').style.display = 'none';
-	} else {
-		document.getElementById('btnVoltar').style.display = 'block';
-	}
-</script>
 
 </html>

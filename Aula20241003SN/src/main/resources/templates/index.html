@@ -1,77 +1,54 @@
 <html>
 
-<head>
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-	<div>
-		<canvas id="myChart"></canvas>
-	</div>
-	<script>
-		const ctx = document.getElementById('myChart');
-
-		const data = {
-			labels: [
-				'Red',
-				'Blue',
-				'Yellow'
-			],
-			datasets: [{
-				label: 'My First Dataset',
-				data: [300, 50, 100],
-				backgroundColor: [
-					'rgb(255, 99, 132)',
-					'rgb(54, 162, 235)',
-					'rgb(255, 205, 86)'
-				],
-				hoverOffset: 4
-			}]
-		};
-
-		new Chart(ctx, {
-			type: 'bar',
-			data: data,
-		});
-
-
-
-	</script>
-
-</head>
-
 <body>
-	<h1>Ola mundo</h1>
+	<h1>Mapa de Classes</h1>
+
+	<table border="1" style="margin: 2pt; padding: 2pt;">
+			<tr>
+			<th>Pessoa</th>
+			<th>Codigo</th>
+			<th>Nome</th>
+			<th>Idade</th>
+			<th>Senha</th>
+			<th>Nivel de Acesso</th>
+			<th>BTN</th>
+		</tr>
+		<tr th:each="pessoa, stat : ${pessoas}">
+			<td th:text="${stat.index}"></td>
+			<td th:text="${pessoa.cd_pessoa}"></td>
+			<td th:text="${pessoa.ds_nome}"></td>
+			<td th:text="${pessoa.dt_nascimento}"></td>
+			<td th:text="${pessoa.ds_senha}"></td>
+			<td th:text="${pessoa.nivelAcesso}"></td>
+			<td><a th:href="@{/index/{cod}(cod=${pessoa.codigo})}">Selecionar</a></td>
+			<td><input type="tel" id="indexValue" th:value="${stat.index}" /></td>
+		</tr>
+	</table>
+	
+	<table border="1" style="margin: 2pt; padding: 2pt;">
+				<tr>
+				<th>Bicicleta</th>
+				<th>Codigo</th>
+				<th>Descrição</th>
+				<th>Status</th>
+				<th>Cliente</th>
+				<th>Tranca</th>
+				<th>Ativo</th>
+				<th>BTN</th>
+			</tr>
+			<tr th:each="bicicleta, stat : ${bicicleta}">
+				<td th:text="${stat.index}"></td>
+				<td th:text="${bicicleta.codigo}"></td>
+				<td th:text="${bicicleta.nome}"></td>
+				<td th:text="${bicicleta.idade}"></td>
+				<td th:text="${bicicleta.senha}"></td>
+				<td th:text="${bicicleta.nivelAcesso}"></td>
+				<td><a th:href="@{/index/{cod}(cod=${bicicleta.codigo})}">Selecionar</a></td>
+				<td><input type="tel" id="indexValue" th:value="${stat.index}" /></td>
+			</tr>
+		</table>
+
 </body>
-
-<table border="1">
-	<tr>
-		<th>i</th>
-		<th>Codigo</th>
-		<th>Nome</th>
-		<th>Idade</th>
-		<th>Senha</th>
-		<th>Nivel de Acesso</th>
-		<th>BTN</th>
-	</tr>
-	<tr th:each="pessoa, stat : ${pessoas}">
-		<td th:text="${stat.index}"></td>
-		<td th:text="${pessoa.codigo}"></td>
-		<td th:text="${pessoa.nome}"></td>
-		<td th:text="${pessoa.idade}"></td>
-		<td th:text="${pessoa.senha}"></td>
-		<td th:text="${pessoa.nivelAcesso}"></td>
-		<td><a th:href="@{/index/{cod}(cod=${pessoa.codigo})}">Selecionar</a></td>
-		<td><input type="tel" id="indexValue" th:value="${stat.index}" /></td>
-	</tr>
-
-
-
-</table>
-
-
-
-
-<!-- "Voltar" button -->
-<button id="btnVoltar" onclick="window.history.back()">Voltar</button>
-
 
 <script>
 	// Get the stat.index value passed from Thymeleaf

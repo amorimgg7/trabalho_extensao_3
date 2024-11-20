@@ -1,0 +1,6 @@
+2024-11-20 13:50:50.537219-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "BICICLETA" not found; SQL statement:
+insert into bicicleta (ativo,cd_cliente,ds_bicicleta,ds_status,nu_tranca,cd_bicicleta) values (?,?,?,?,?,?) [42102-224]
+2024-11-20 14:54:37.227696-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "update totem ds_endereco [*]= 'Rua asa branca, 123, Campo Grande' where cd_totem = 1"; expected "SET"; SQL statement:
+update totem ds_endereco = 'Rua asa branca, 123, Campo Grande' where cd_totem = 1 [42001-224]

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class IndexController {
 
     private final PessoaNet pnet = new LojaCliente().getPessoaNet();
+    private final BicicletaNet bnet = new LojaCliente().getBicicletaNet();
+    private final TotemNet tnet = new LojaCliente().getTotemNet();
 
     @GetMapping("/")
     public String index(Model model) {
@@ -24,7 +26,17 @@ public class IndexController {
         try {
             model.addAttribute("pessoas", pnet.obterTodos().execute().body());
         } catch (IOException e) {
-            System.out.println("Erro");
+            System.out.println("Erro Pessoa");
+        }
+        try {
+            model.addAttribute("bicicletas", bnet.obterTodos().execute().body());
+        } catch (IOException e) {
+            System.out.println("Erro Bicicleta");
+        }
+        try {
+            model.addAttribute("totems", tnet.obterTodos().execute().body());
+        } catch (IOException e) {
+            System.out.println("Erro Totem");
         }
         return "index2";
     }

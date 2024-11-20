@@ -79,15 +79,15 @@
     <script>
         window.onload = function () {
             // Obtém o valor do código da sessão
-            const codigoPessoa = [[${ session.codigoPessoa }]]; // Use a sintaxe correta do Thymeleaf para obter o valor
-            const codigoBicicleta = [[${ session.codigoBicicleta }]];
-            const codigoAluguel = [[${ session.codigoAluguel }]];
-            const codigoCarteira = [[${ session.codigoCarteira }]];
+            const codigoPessoa = '[[${ session.codigoPessoa }]]'; // Use a sintaxe correta do Thymeleaf para obter o valor
+            const codigoBicicleta = '[[${ session.codigoBicicleta }]]';
+            const codigoAluguel = '[[${ session.codigoAluguel }]]';
+            const codigoCarteira = '[[${ session.codigoCarteira }]]';
 
-            console.log("Pessoa: " + [[${ session.codigoPessoa }]]);
-            console.log("Bicicleta: " + [[${ session.codigoBicicleta }]]);
-            console.log("Aluguel: " + [[${ session.codigoAluguel }]]);
-            console.log("Carteira: " + [[${ session.codigoCarteira }]]);
+            console.log("Pessoa: " + '[[${ session.codigoPessoa }]]');
+            console.log("Bicicleta: " + '[[${ session.codigoBicicleta }]]');
+            console.log("Aluguel: " + '[[${ session.codigoAluguel }]]');
+            console.log("Carteira: " + '[[${ session.codigoCarteira }]]');
             // Verifica se o código é maior que 0 ou não nulo
             if (codigoPessoa == null || codigoPessoa == "null") {
                 // Redireciona para a página de dashboard

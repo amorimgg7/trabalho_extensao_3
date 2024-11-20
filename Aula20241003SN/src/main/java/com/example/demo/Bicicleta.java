@@ -1,37 +1,39 @@
 package com.example.demo;
 
-import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 
 @Entity
-@DiscriminatorValue("BICICLETA")
-public class Bicicleta extends Pessoa{
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public class Bicicleta {
 
-    public String codigo_tranca;
-    public String local_tranca;
-    public Boolean disponivel;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public Integer cd_bicicleta;
+    public String ds_bicicleta;
+    public String cd_cliente;
+    public Integer nu_tranca;
+    public String ds_status;
+    public Boolean ativo;
 
-    public String getCodigo_tranca() {
-        return codigo_tranca;
+    public Integer getBicicleta() {
+        return cd_bicicleta;
     }
 
-    public void setCodigo_tranca(String codigo_tranca) {
-        this.codigo_tranca = codigo_tranca;
+    public void setBicicleta(Integer cd_bicicleta) {
+        this.cd_bicicleta = cd_bicicleta;
     }
 
-    public String getLocal_tranca() {
-        return local_tranca;
+    public Boolean getAtivo() {
+        return ativo;
     }
 
-    public void setLocal_tranca(String local_tranca) {
-        this.local_tranca = local_tranca;
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
     }
 
-    public Boolean getDisponivel() {
-        return disponivel;
-    }
-
-    public void setDisponivel(Boolean disponivel) {
-        this.disponivel = disponivel;
-    }
 }

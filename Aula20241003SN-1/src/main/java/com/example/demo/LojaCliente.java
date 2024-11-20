@@ -11,4 +11,10 @@ public class LojaCliente {
     public PessoaNet getPessoaNet() {
         return retrofit.create(PessoaNet.class);
     }
+    public BicicletaNet getBicicletaNet() {
+        return retrofit.create(BicicletaNet.class);
+    }
+    public TotemNet getTotemNet() {
+        return retrofit.create(TotemNet.class);
+    }
 }
