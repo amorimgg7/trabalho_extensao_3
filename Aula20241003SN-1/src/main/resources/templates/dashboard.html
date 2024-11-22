@@ -96,10 +96,13 @@
 
             if (codigoBicicleta == null || codigoBicicleta < 1) {
                 document.getElementById("statusBicicleta").style.display = "none";
+				document.getElementById("semBicicleta").style.visibility = "visible";
                 console.log("Sem Bike");
+				
             } else {
                 console.log("Com Bike");
                 document.getElementById("statusBicicleta").style.visibility = "visible";
+				document.getElementById("semBicicleta").style.display = "none";
             }
 
         }
@@ -118,7 +121,9 @@
 
         <div class="status-info" id="statusBicicleta">
             <div class="status-card">
-                <h2>Bicicleta: <span th:text="${session.codigoBicicleta}">teste</span></h2>
+                <h2>Bicicleta: <span th:text="${session.codigoBicicleta}">?</span></h2>
+				<span th:text="${session.descricaoBicicleta}">?</span>
+				
                 <p th:text="${session.statusBicicleta}">Alugado</p>
             </div>
             <div class="status-card">
@@ -129,16 +134,16 @@
 
 
 
-
+		<!--
         <div class="gps-info">
             <h3>Localização Atual do Patinete</h3>
             <p id="gps-local">Rua Exemplo, 123 - Centro, Cidade</p>
-        </div>
+        </div>-->
 
         <!-- Se o usuário não estiver com patinete alugado -->
 
-        <div class="not-alugado">
-            <p>Você não está com nenhum patinete alugado no momento.</p>
+        <div class="not-alugado" id="semBicicleta">
+            <p>Você não está com nenhuma Bicicleta, Deseja alugar?</p>
         </div>
 
 

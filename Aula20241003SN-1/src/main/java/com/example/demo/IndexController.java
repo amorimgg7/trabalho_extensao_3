@@ -14,6 +14,7 @@ public class IndexController {
     private final PessoaNet pnet = new LojaCliente().getPessoaNet();
     private final BicicletaNet bnet = new LojaCliente().getBicicletaNet();
     private final TotemNet tnet = new LojaCliente().getTotemNet();
+    private final AluguelNet anet = new LojaCliente().getAluguelNet();
 
     @GetMapping("/")
     public String index(Model model) {
@@ -23,23 +24,37 @@ public class IndexController {
 
     @GetMapping("/index2")
     public String index2(Model model) {
-        try {
+        
+    	try {
             model.addAttribute("pessoas", pnet.obterTodos().execute().body());
         } catch (IOException e) {
-            System.out.println("Erro Pessoa");
+        	System.out.println("Erro Pessoa");
+            System.err.println("Erro ao carregar dados de pessoas: " + e.getMessage());
         }
+
         try {
             model.addAttribute("bicicletas", bnet.obterTodos().execute().body());
         } catch (IOException e) {
-            System.out.println("Erro Bicicleta");
+        	System.out.println("Erro Bicicleta");
+            System.err.println("Erro ao carregar dados de bicicletas: " + e.getMessage());
         }
+
         try {
             model.addAttribute("totems", tnet.obterTodos().execute().body());
         } catch (IOException e) {
-            System.out.println("Erro Totem");
+        	System.out.println("Erro Totem");
+            System.err.println("Erro ao carregar dados de totems: " + e.getMessage());
         }
+        try {
+            model.addAttribute("aluguels", anet.obterTodos().execute().body());
+        } catch (IOException e) {
+        	System.out.println("Erro Aluguel");
+            System.err.println("Erro ao carregar dados de aluguels: " + e.getMessage());
+        }
+
         return "index2";
     }
+
 
     @GetMapping("/index2/{cd_pessoa}")
     @SuppressWarnings("CallToPrintStackTrace")
@@ -57,24 +72,38 @@ public class IndexController {
     public String index2(@PathVariable("ds_nome") String ds_nome, @PathVariable("ds_senha") String ds_senha, Model model, jakarta.servlet.http.HttpSession session) {
         try {
             Pessoa pessoa = pnet.login(ds_nome, ds_senha).execute().body();
+            
             if (pessoa == null) {
             	session.setAttribute("codigoErro", 1);
             	return "/index";
+            }else {
+            	if (pessoa.nivelAcesso == 1) {
+            		model.addAttribute("pessoas", pessoa);
+            		session.setAttribute("codigoPessoa", pessoa.cd_pessoa);
+            		session.setAttribute("nome", pessoa.ds_nome);
+            		
+            		Aluguel aluguel = anet.obter(pessoa.cd_pessoa, false).execute().body();
+            		
+            		if(aluguel == null) {
+            			session.setAttribute("codigoBicicleta", "0");
+            			session.setAttribute("codigoAluguel", "0");
+            		}else {
+            			Bicicleta bicicleta = bnet.obter(aluguel.cd_bicicleta).execute().body();
+            			session.setAttribute("codigoBicicleta", aluguel.cd_bicicleta);
+            			
+            			session.setAttribute("codigoAluguel", aluguel.cd_aluguel);
+            			
+            			if(bicicleta != null) {
+            				session.setAttribute("descricaoBicicleta", bicicleta.ds_bicicleta);
+            			}else {
+            				session.setAttribute("descricaoBicicleta", "Desconhecida");
+            			}
+            		}
+                
+            		session.setAttribute("codigoCarteira", "1");
+            	}
             }
-            
-            
-            model.addAttribute("pessoas", pessoa);
-            session.setAttribute("codigoPessoa", pessoa.cd_pessoa);
-            session.setAttribute("codigoBicicleta", "3");
-            session.setAttribute("codigoAluguel", "1");
-            session.setAttribute("codigoCarteira", "1");
-            session.setAttribute("nome", pessoa.ds_nome);
 
-            /*if(senha != pessoa.senha) {
-	        	model.addAttribute("pessoas", null);
-	            session.removeAttribute("codigo");
-	            session.removeAttribute("nome");
-	        }*/
             if (pessoa.nivelAcesso == 5) {
                 return "/gestor";
             }

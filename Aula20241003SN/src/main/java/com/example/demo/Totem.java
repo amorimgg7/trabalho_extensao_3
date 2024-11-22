@@ -21,16 +21,8 @@ public class Totem {
     public String local_3;
     public String local_4;
     public String local_5;
-    public String ds_status;
+    public String ds_statuss;
     public Boolean ativo;
-
-    public String getStatus() {
-        return ds_status;
-    }
-
-    public void setStatus(String ds_status) {
-        this.ds_status = ds_status;
-    }
 
     public Boolean getAtivo() {
         return ativo;

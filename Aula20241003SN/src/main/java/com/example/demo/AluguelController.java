@@ -18,21 +18,21 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
-@RequestMapping("/bicicleta")
+@RequestMapping("/aluguel")
 @CrossOrigin(origins = "*")
-public class BicicletaController {
+public class AluguelController {
 
     @Autowired
-    BicicletaDAO bdao;
+    AluguelDAO adao;
 
     @PostMapping
-    public void incluir(@RequestBody Bicicleta b) {
-        bdao.save(b);
+    public void incluir(@RequestBody Aluguel a) {
+        adao.save(a);
     }
 
     @GetMapping
-    public List<Bicicleta> obterTodos() {
-        return bdao.findAll();
+    public List<Aluguel> obterTodos() {
+        return adao.findAll();
     }
 
     /*
@@ -43,16 +43,16 @@ public class BicicletaController {
      * 
      * */
     
-    @GetMapping("{cd_bicicleta}")
-    public Bicicleta Consultar(@PathVariable("cd_bicicleta") Integer cd_bicicleta, HttpServletResponse resp) {
-        Optional<Bicicleta> b = bdao.findByCodigo(cd_bicicleta);
-        if (b.isPresent()) {
-            return b.get(); 
-        }else {
+    @GetMapping("{cd_pessoa}/{pago}")
+    public Aluguel obter(@PathVariable("cd_pessoa") Integer cd_pessoa, @PathVariable("pago") Boolean pago, HttpServletResponse resp) {
+        System.out.println(cd_pessoa+" :: "+pago);
+    	Optional<Aluguel> a = adao.findByCodigoAndPago(cd_pessoa, pago);
+        if (a.isPresent()) {
+            return a.get();
+        } else {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return null;
         }
     }
-
 
 }

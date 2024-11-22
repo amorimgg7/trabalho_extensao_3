@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface BicicletaDAO extends JpaRepository<Bicicleta, Integer> {
+public interface AluguelDAO extends JpaRepository<Aluguel, Integer> {
 
     /*
  * Aqui deve ter as funcoes.
@@ -15,7 +15,8 @@ public interface BicicletaDAO extends JpaRepository<Bicicleta, Integer> {
  * Liberar
  * Desativar
  * */
-	@Query("select b from Bicicleta b where b.cd_bicicleta = :codigo")
-    Optional<Bicicleta> findByCodigo(@Param("codigo") Integer codigo);//ConsultarStatus
+
+	@Query("select a from Aluguel a where a.cd_pessoa = :codigo and a.pago= :pago")
+    Optional<Aluguel> findByCodigoAndPago(@Param("codigo") Integer codigo, @Param("pago") Boolean pago);
 
 }

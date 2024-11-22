@@ -5,10 +5,10 @@ public class Bicicleta {
 
 	public Integer cd_bicicleta;
     public String ds_bicicleta;
-    public String cd_cliente;
     public Integer nu_tranca;
-    public String ds_status;
+    public String ds_statuss;
     public Boolean ativo;
+
 
 
 }

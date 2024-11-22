@@ -13,20 +13,11 @@ public class Bicicleta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    public Integer cd_bicicleta;
+	public Integer cd_bicicleta;
     public String ds_bicicleta;
-    public String cd_cliente;
     public Integer nu_tranca;
-    public String ds_status;
+    public String ds_statuss;
     public Boolean ativo;
-
-    public Integer getBicicleta() {
-        return cd_bicicleta;
-    }
-
-    public void setBicicleta(Integer cd_bicicleta) {
-        this.cd_bicicleta = cd_bicicleta;
-    }
 
     public Boolean getAtivo() {
         return ativo;

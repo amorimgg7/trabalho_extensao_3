@@ -17,4 +17,7 @@ public class LojaCliente {
     public TotemNet getTotemNet() {
         return retrofit.create(TotemNet.class);
     }
+    public AluguelNet getAluguelNet() {
+        return retrofit.create(AluguelNet.class);
+    }
 }

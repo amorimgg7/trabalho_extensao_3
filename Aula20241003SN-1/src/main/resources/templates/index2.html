@@ -2,70 +2,121 @@
 
 <body>
 	<h1>Mapa de Classes</h1>
-
-	<table border="1" style="margin: 2pt; padding: 2pt;">
-		<tr>
-			<th class="status-card">Pessoa</th>
-			<th class="status-card">Codigo</th>
-			<th class="status-card">Nome</th>
-			<th class="status-card">Idade</th>
-			<th class="status-card">Senha</th>
-			<th class="status-card">Nível de Acesso</th>
-			<th class="status-card">BTN</th>
-		</tr>
-		<tr th:each="pessoa, stat : ${pessoas}">
-			<td class="gps-info" th:text="${stat.index}"></td>
-			<td class="gps-info" th:text="${pessoa.cd_pessoa}"></td>
-			<td class="gps-info" th:text="${pessoa.ds_nome}"></td>
-			<td class="gps-info" th:text="${pessoa.dt_nascimento}"></td>
-			<td class="gps-info" th:text="${pessoa.ds_senha}"></td>
-			<td class="gps-info" th:text="${pessoa.nivelAcesso}"></td>
-			<td class="gps-info"><a th:href="@{/dashboard/{cod}(cod=${pessoa.cd_pessoa})}">Selecionar 1</a></td>
-		</tr>
-	</table>
-	
-	<table border="1" style="margin: 2pt; padding: 2pt;">
-		<tr>
-			<th class="status-card">Bicicleta</th>
-			<th class="status-card">Codigo</th>
-			<th class="status-card">Descrição</th>
-			<th class="status-card">	</th>
-			<th class="status-card">	</th>
-			<th class="status-card">	</th>
-			<th class="status-card">BTN</th>
-		</tr>
-		<tr th:each="bicicleta, stat : ${bicicletas}">
-			<td class="gps-info" th:text="${stat.index}"></td>
-			<td class="gps-info" th:text="${bicicleta.cd_bicicleta}"></td>
-			<td class="gps-info" th:text="${bicicleta.cd_bicicleta}"></td>
-			<td class="gps-info" th:text="${bicicleta.cd_bicicleta}"></td>
-			<td class="gps-info" th:text="${bicicleta.cd_bicicleta}"></td>
-			<td class="gps-info" th:text="${bicicleta.cd_bicicleta}"></td>
-			<td class="gps-info"><a th:href="@{/dashboard/{cod}(cod=${bicicleta.cd_bicicleta})}">Selecionar 1</a></td>
-		</tr>
-	</table>
+	<div>
+		<h3>Principais</h3>
+		<table border="1" style="margin: 2pt; padding: 2pt;">
+			<tr>
+				<th class="status-card">Pessoa</th>
+				<th class="status-card">Codigo</th>
+				<th class="status-card">Nome</th>
+				<th class="status-card">CPF</th>
+				<th class="status-card">Email</th>
+				<th class="status-card">Telefone</th>
+				<th class="status-card">Data Nascimento</th>
+				<th class="status-card">Senha</th>
+				<th class="status-card">Nível de Acesso</th>
+				<th class="status-card">Ativo</th>
+				<th class="status-card">BTN</th>
+			</tr>
+			<tr th:each="pessoa, stat : ${pessoas}">
+				<td class="gps-info" th:text="${stat.index}"></td>
+				<td class="gps-info" th:text="${pessoa.cd_pessoa}"></td>
+				<td class="gps-info" th:text="${pessoa.ds_nome}"></td>
+				<td class="gps-info" th:text="${pessoa.nu_cpf}"></td>
+				<td class="gps-info" th:text="${pessoa.ds_email}"></td>
+				<td class="gps-info" th:text="${pessoa.nu_telefone}"></td>
+				<td class="gps-info" th:text="${pessoa.dt_nascimento}"></td>
+				<td class="gps-info" th:text="${pessoa.ds_senha}"></td>
+				<td class="gps-info" th:text="${pessoa.nivelAcesso}"></td>
+				<td class="gps-info" th:text="${pessoa.ativo}"></td>
+				<td class="gps-info"><a th:href="@{/dashboard/{cod}(cod=${pessoa.cd_pessoa})}">Selecionar 1</a></td>
+			</tr>
+		</table>
 		
-	<table border="1" style="margin: 2pt; padding: 2pt;">
-		<tr>
-			<th class="status-card">Totem</th>
-			<th class="status-card">Codigo</th>
-			<th class="status-card">Descrição</th>
-			<th class="status-card">	</th>
-			<th class="status-card">	</th>
-			<th class="status-card">	</th>
-			<th class="status-card">BTN</th>
-		</tr>
-		<tr th:each="totem, stat : ${totems}">
-			<td class="gps-info" th:text="${stat.index}"></td>
-			<td class="gps-info" th:text="${totem.cd_totem}"></td>
-			<td class="gps-info" th:text="${totem.cd_totem}"></td>
-			<td class="gps-info" th:text="${totem.cd_totem}"></td>
-			<td class="gps-info" th:text="${totem.cd_totem}"></td>
-			<td class="gps-info" th:text="${totem.cd_totem}"></td>
-			<td class="gps-info"><a th:href="@{/dashboard/{cod}(cod=${totem.cd_totem})}">Selecionar 1</a></td>
-		</tr>
-	</table>
-
+		<table border="1" style="margin: 2pt; padding: 2pt;">
+			<tr>
+				<th class="status-card">Bicicleta</th>
+				<th class="status-card">Codigo</th>
+				<th class="status-card">Descrição</th>
+				<th class="status-card">Status</th>
+				<th class="status-card">Tranca</th>
+				<th class="status-card">Ativo</th>
+				<th class="status-card">BTN</th>
+			</tr>
+			<tr th:each="bicicleta, stat : ${bicicletas}">
+				<td class="gps-info" th:text="${stat.index}"></td>
+				<td class="gps-info" th:text="${bicicleta.cd_bicicleta}"></td>
+				<td class="gps-info" th:text="${bicicleta.ds_bicicleta}"></td>
+				<td class="gps-info" th:text="${bicicleta.ds_statuss}"></td>
+				<td class="gps-info" th:text="${bicicleta.nu_tranca}"></td>
+				<td class="gps-info" th:text="${bicicleta.ativo}"></td>
+				<td class="gps-info"><a th:href="@{/dashboard/{cod}(cod=${bicicleta.cd_bicicleta})}">Selecionar 1</a></td>
+			</tr>
+		</table>
+			
+		<table border="1" style="margin: 2pt; padding: 2pt;">
+			<tr>
+				<th class="status-card">Totem</th>
+				<th class="status-card">Codigo</th>
+				<th class="status-card">Descrição Totem</th>
+				<th class="status-card">Endereço</th>
+				<th class="status-card">Status</th>
+				<th class="status-card">Local_1</th>
+				<th class="status-card">Local_2</th>
+				<th class="status-card">Local_3</th>
+				<th class="status-card">Local_4</th>
+				<th class="status-card">Local_5</th>
+				<th class="status-card">Ativo</th>
+				<th class="status-card">BTN</th>
+			</tr>
+			<tr th:each="totem, stat : ${totems}">
+				<td class="gps-info" th:text="${stat.index}"></td>
+				<td class="gps-info" th:text="${totem.cd_totem}"></td>
+				<td class="gps-info" th:text="${totem.ds_totem}"></td>
+				<td class="gps-info" th:text="${totem.ds_endereco}"></td>
+				<td class="gps-info" th:text="${totem.ds_statuss}"></td>
+				<td class="gps-info" th:text="${totem.local_1}"></td>
+				<td class="gps-info" th:text="${totem.local_2}"></td>
+				<td class="gps-info" th:text="${totem.local_3}"></td>
+				<td class="gps-info" th:text="${totem.local_4}"></td>
+				<td class="gps-info" th:text="${totem.local_5}"></td>
+				<td class="gps-info" th:text="${totem.ativo}"></td>
+				<td class="gps-info"><a th:href="@{/dashboard/{cod}(cod=${totem.cd_totem})}">Selecionar 1</a></td>
+			</tr>
+		</table>
+	</div>
+	<div>
+		<h3>Relacionais</h3>
+		<table border="1" style="margin: 2pt; padding: 2pt;">
+			<tr>
+				<th class="status-card">Aluguel</th>
+				<th class="status-card">Codigo</th>
+				<th class="status-card">Pessoa</th>
+				<th class="status-card">Bicicleta</th>
+				<th class="status-card">Totem Retirada</th>
+				<th class="status-card">Data retirada</th>
+				<th class="status-card">Totem Devolução</th>
+				<th class="status-card">Data Devolução</th>
+				<th class="status-card">Valor</th>
+				<th class="status-card">Pago</th>
+				<th class="status-card">BTN</th>
+			</tr>
+			<tr th:each="aluguel, stat : ${aluguels}">
+				<td class="gps-info" th:text="${stat.index}"></td>
+				<td class="gps-info" th:text="${aluguel.cd_aluguel}"></td>
+				<td class="gps-info" th:text="${aluguel.cd_pessoa}"></td>
+				<td class="gps-info" th:text="${aluguel.cd_bicicleta}"></td>
+				<td class="gps-info" th:text="${aluguel.cd_totem_retirada}"></td>
+				<td class="gps-info" th:text="${aluguel.dt_retirada}"></td>
+				<td class="gps-info" th:text="${aluguel.cd_totem_devolucao}"></td>
+				<td class="gps-info" th:text="${aluguel.dt_devolucao}"></td>
+				<td class="gps-info" th:text="${aluguel.nu_valor_aluguel}"></td>
+				<td class="gps-info" th:text="${aluguel.pago}"></td>
+				<td class="gps-info"><a th:href="@{/dashboard/{cod}(cod=${aluguel.cd_aluguel})}">Selecionar 1</a></td>
+			</tr>
+		</table>
+	</div>
+	
 </body>
 
 
