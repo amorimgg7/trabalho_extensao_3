@@ -1,0 +1,73 @@
+/* layout
+*/
+html, body, #home {
+	height: 100%;
+	overflow-x: hidden;
+}
+
+
+/*Estrutua--*/
+
+.login {
+    color: #000000;
+}
+
+body {
+    background-color: #009c3b;
+    color: #ffffff;
+}
+.navbar, .navbar-nav a {
+    color: #ffffff;
+}
+.hero-section {
+    text-align: center;
+    padding: 150px 0;
+}
+.hero-title {
+    font-size: 3rem;
+    font-weight: bold;
+}
+.hero-subtitle {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+}
+.hero-text {
+    margin-top: 1rem;
+    color: #bbbbbb;
+}
+.order-btn {
+    margin-top: 1.5rem;
+    background-color: #b6ff00;
+    color: #000000;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 5px;
+}
+.order-btn:hover {
+    background-color: #a8e600;
+}
+
+.social-icons a {
+    color: #ffffff;
+    margin-left: 10px; /* Aumente este valor para mais espaçamento */
+}
+.social-icons a:hover {
+    color: #b6ff00;
+}
+
+/*Formatação******/
+
+.titulo-bike {
+    color: #000000;
+}
+
+.subtitulo-bike {
+    color: #000000;
+}
+
+.texto-bike {
+    color: #000000;
+}
+
+
