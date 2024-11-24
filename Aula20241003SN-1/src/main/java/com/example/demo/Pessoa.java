@@ -7,10 +7,10 @@ public class Pessoa {
 	
 	public Integer cd_pessoa;
 	public String ds_nome;
-    public Integer nu_cpf;
+    public String nu_cpf;
     public String ds_email;
-    public Integer nu_telefone;
-    public LocalDate dt_nascimento;
+    public String nu_telefone;
+    public String dt_nascimento;
     public String ds_senha;
 
     public Integer nivelAcesso;
@@ -29,21 +29,27 @@ public class Pessoa {
         this.ds_nome = ds_nome;
     }  
     
-    public void setCPF(Integer nu_cpf) {
+    public void setCPF(String nu_cpf) {
     	this.nu_cpf = nu_cpf;
     }
-    public void setDtNascimento(LocalDate dt_nascimento) {
+    public void setDtNascimento(String dt_nascimento) {
     	this.dt_nascimento = dt_nascimento;
     }
     
     public void setEmail(String ds_email) {
     	this.ds_email = ds_email;
     }
-    public void setTelefone(Integer nu_telefone) {
+    public void setTelefone(String nu_telefone) {
     	this.nu_telefone = nu_telefone;
     }
     public void setSenha(String ds_senha) {
     	this.ds_senha = ds_senha;
+    }
+    public void setNivelAcesso(Integer nivelAcesso) {
+    	this.nivelAcesso = nivelAcesso;
+    }
+    public void setAtivo(Boolean ativo) {
+    	this.ativo = ativo;
     }
 
 	

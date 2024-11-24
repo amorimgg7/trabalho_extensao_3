@@ -136,3 +136,6 @@ Caused by: java.lang.NumberFormatException: For input string: "10/11/"
 	at org.h2.util.DateTimeUtils.parseTimestamp(DateTimeUtils.java:338)
 	at org.h2.value.ValueTimestamp.parse(ValueTimestamp.java:86)
 	... 54 more
+2024-11-24 13:37:06.587322-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "PESSOA" not found; SQL statement:
+select p1_0.cd_pessoa,p1_0.ativo,p1_0.ds_email,p1_0.ds_nome,p1_0.ds_senha,p1_0.dt_nascimento,p1_0.nivel_acesso,p1_0.nu_cpf,p1_0.nu_telefone from pessoa p1_0 [42102-224]

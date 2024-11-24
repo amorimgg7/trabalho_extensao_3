@@ -161,25 +161,21 @@ public class IndexController {
 
     @PostMapping("/finalizarCadastro")
     public String cadastrarPessoa(@RequestParam("ds_nome") String ds_nome, @RequestParam("nu_cpf") String nu_cpf,
-            @RequestParam("dt_nascimento") LocalDate dt_nascimento, @RequestParam("ds_email") String ds_email,
+            @RequestParam("dt_nascimento") String dt_nascimento, @RequestParam("ds_email") String ds_email,
             @RequestParam("ds_senha") String ds_senha, @RequestParam("nu_telefone") String nu_telefone, 
             Model model) {
         try {
         	Pessoa pessoa = new Pessoa();
         	pessoa.setNome(ds_nome);
-        	//pessoa.setDtNascimento(dt_nascimento);
+        	pessoa.setDtNascimento(dt_nascimento);
         	pessoa.setEmail(ds_email);
         	pessoa.setSenha(ds_senha);
+        	pessoa.setNivelAcesso(1);
+        	pessoa.setAtivo(true);
             
-        	// Conversões para Integer
-            try {
-                //pessoa.setCPF(Integer.valueOf(nu_cpf));
-                //pessoa.setTelefone(Integer.valueOf(nu_telefone));
-            } catch (NumberFormatException e) {
-                model.addAttribute("mensagem", "CPF ou telefone inválido. Por favor, insira apenas números.");
-                return "redirect:/erro/2";
-            }
-            
+        	
+        	pessoa.setCPF(nu_cpf);
+            pessoa.setTelefone(nu_telefone);
             
             
         	pnet.incluir(pessoa).execute();
