@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -158,14 +159,30 @@ public class IndexController {
         return "redirect:/";
     }
 
-    @PostMapping("/cadastro")
-    public String cadastrarPessoa(@RequestParam("ds_nome") String ds_nome, @RequestParam("nu_cpf") Integer nu_cpf,
-            @RequestParam("dt_nascimento") LocalDateTime dt_nascimento, @RequestParam("ds_email") String ds_email,
-            @RequestParam("ds_senha") String ds_senha, @RequestParam("nu_telefone") Integer nu_telefone, 
-            @RequestParam("nivelAcesso") Integer nivelAcesso, Model model) {
+    @PostMapping("/finalizarCadastro")
+    public String cadastrarPessoa(@RequestParam("ds_nome") String ds_nome, @RequestParam("nu_cpf") String nu_cpf,
+            @RequestParam("dt_nascimento") LocalDate dt_nascimento, @RequestParam("ds_email") String ds_email,
+            @RequestParam("ds_senha") String ds_senha, @RequestParam("nu_telefone") String nu_telefone, 
+            Model model) {
         try {
-            Pessoa pessoa = new Pessoa(ds_nome, nu_cpf, dt_nascimento, ds_email, ds_senha, nu_telefone, 1);
-            pnet.incluir(pessoa).execute();
+        	Pessoa pessoa = new Pessoa();
+        	pessoa.setNome(ds_nome);
+        	//pessoa.setDtNascimento(dt_nascimento);
+        	pessoa.setEmail(ds_email);
+        	pessoa.setSenha(ds_senha);
+            
+        	// Conversões para Integer
+            try {
+                //pessoa.setCPF(Integer.valueOf(nu_cpf));
+                //pessoa.setTelefone(Integer.valueOf(nu_telefone));
+            } catch (NumberFormatException e) {
+                model.addAttribute("mensagem", "CPF ou telefone inválido. Por favor, insira apenas números.");
+                return "redirect:/erro/2";
+            }
+            
+            
+            
+        	pnet.incluir(pessoa).execute();
             model.addAttribute("mensagem", "Cadastro realizado com sucesso!");
             return "redirect:/cadastro";
         } catch (IOException e) {

@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
@@ -21,7 +22,7 @@ public class Pessoa {
 
     public String ds_nome;
     public Integer nu_telefone;
-    public LocalDateTime dt_nascimento;
+    public LocalDate dt_nascimento;
     public String ds_senha;
 
     public Integer nivelAcesso;
