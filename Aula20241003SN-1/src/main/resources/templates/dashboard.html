@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--<script>location.href="localhost:8080/dashboard";</script>-->
-    <title>Dashboard de Aluguel de Patinete</title>
+    <title>Dashboard de Aluguel de Bicicleta</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -107,11 +107,18 @@
 
         }
     </script>
+	
+	
+	
+	
+
+	
+	
 </head>
 
 <body>
     <div class="dashboard-container">
-        <h1>Dashboard de Aluguel de Patinete</h1>
+        <h1>Dashboard de Aluguel de Bicicleta</h1>
 
         <div class="gps-info">
             <h3>Olá, <span th:text="${session.nome} ">, aproveite nossos serviços</h3>
@@ -119,19 +126,31 @@
         </div>
 
 
-        <div class="status-info" id="statusBicicleta">
-            <div class="status-card">
-                <h2>Bicicleta: <span th:text="${session.codigoBicicleta}">?</span></h2>
-				<span th:text="${session.descricaoBicicleta}">?</span>
+		<div class="gps-info">
+			<h2>Status Aluguel</h2>
+        	<div class="status-info" id="statusBicicleta">
+        	    <div class="status-card">
+        	        <h2>Bicicleta: <span th:text="${session.codigoBicicleta}">?</span></h2>
+					<span id="bibicleta-obs">?</span>
+					<h3><span th:text="${session.descricaoBicicleta}">?</span></h3>
 				
-                <p th:text="${session.statusBicicleta}">Alugado</p>
-            </div>
-            <div class="status-card">
-                <h2>Tempo de Uso</h2>
-                <p id="tempo-uso">15 min</p>
-            </div>
-        </div>
+        	        <p th:text="${session.statusBicicleta}">Alugado</p>
+        	    </div>
+        	    
+				
+				<div class="status-card">
+					<h2>Tempo de Uso</h2>
+					<p id="tempo-uso">Calculando...</p>
+				</div>
 
+				<div class="status-card">
+				    <h2>Valor a Pagar</h2>
+					<h3 id="valor-obs">...</h3>
+				    <p id="valor-pagar">Calculando...</p>
+				</div>
+					
+        	</div>
+		</div>
 
 
 		<!--
@@ -147,36 +166,7 @@
         </div>
 
 
-        <table>
-            <tr>
-                <th class="status-card">i</th>
-                <th class="status-card">Codigo</th>
-                <th class="status-card">Nome</th>
-                <th class="status-card">Idade</th>
-                <th class="status-card">Senha</th>
-                <th class="status-card">Nível de Acesso</th>
-                <th class="status-card">BTN</th>
-            </tr>
-            <tr th:each="pessoa, stat : ${pessoas}">
-                <td class="gps-info" th:text="${stat.index}"></td>
-                <td class="gps-info" th:text="${pessoa.cd_pessoa}"></td>
-                <td class="gps-info" th:text="${pessoa.ds_nome}"></td>
-                <td class="gps-info" th:text="${pessoa.dt_nascimento}"></td>
-                <td class="gps-info" th:text="${pessoa.ds_senha}"></td>
-                <td class="gps-info" th:text="${pessoa.nivelAcesso}"></td>
-                <td class="gps-info"><a th:href="@{/dashboard/{cod}(cod=${pessoa.cd_pessoa})}">Selecionar 1</a></td>
-                <form method="post">
-                    <td class="gps-info">
-                        <input type="tel" name="nomePessoa" id="nomePessoa" th:value="${pessoa.ds_nome}" />
-                        <input type="tel" name="senhaPessoa" id="senhaPessoa" th:value="${pessoa.ds_senha}" />
-                        <input type="submit" value="Selecionar 2" />
-                    </td>
-                </form>
-            </tr>
-
-
-
-        </table>
+        
     </div>
 
     <script>
@@ -191,6 +181,88 @@
 
 
     </script>
+	
+	
+	
+	<script>
+		// Obter dados do Thymeleaf
+		    const retirada = /*[[${session.datahoraRetirada}]]*/ '2024-11-22T08:00:00'; // Exemplo de data
+		    const devolvida = /*[[${session.datahoraDevolvida}]]*/ null; // Exemplo: null se ainda não devolvido
+		    const precoPorHora = /*[[${session.precobicicleta}]]*/ 2; // Exemplo: custo por hora em reais
+
+			document.getElementById('bibicleta-obs').innerText = `Preço por hora R$ ${precoPorHora.toFixed(2)}`;
+			//bibicleta-obs
+		    // Função para formatar a duração
+		    function formatDuration(ms) {
+		        const totalMinutes = Math.floor(ms / 60000);
+		        const days = Math.floor(totalMinutes / 1440); // 1440 minutos em um dia
+		        const hours = Math.floor((totalMinutes % 1440) / 60); // Horas restantes
+		        const minutes = totalMinutes % 60; // Minutos restantes
+
+		        if (days > 0) {
+		            return `${days}d ${hours} h ${minutes} min`;
+		        } else if (hours > 0) {
+		            return `${hours} h ${minutes} min`;
+		        } else {
+		            return `${minutes} min`;
+		        }
+		    }
+
+		    // Função para calcular o tempo de uso
+		    function calculateUsage() {
+		        const retiradaTime = new Date(retirada);
+		        const endTime = devolvida ? new Date(devolvida) : new Date();
+
+		        // Validar se as datas são válidas
+		        if (isNaN(retiradaTime) || isNaN(endTime)) {
+		            document.getElementById('tempo-uso').innerText = 'Erro: Data inválida';
+		            document.getElementById('valor-pagar').innerText = 'Erro: Data inválida';
+		            return;
+		        }
+
+		        const duration = endTime - retiradaTime;
+
+		        // Verificar se a duração é negativa
+		        if (duration < 0) {
+		            document.getElementById('tempo-uso').innerText = 'Erro: Horário inválido';
+		            document.getElementById('valor-pagar').innerText = 'Erro: Horário inválido';
+		            return;
+		        }
+
+		        // Atualizar o tempo formatado
+		        document.getElementById('tempo-uso').innerText = formatDuration(duration);
+
+		        // Calcular e exibir o valor a pagar
+		        calculatePayment(duration);
+		    }
+
+		    // Função para calcular o valor a pagar com base em horas e minutos fracionados
+		    function calculatePayment(ms) {
+		        // Convertendo milissegundos para horas fracionadas
+		        const totalHours = ms / 3600000; // Total de horas com fração (1 hora = 3600000 ms)
+		        
+		        // Calcular o valor baseado nas horas fracionadas
+		        const valor = totalHours * precoPorHora;
+
+		        // Atualizar o elemento com o valor formatado
+				if(devolvida == null){
+					document.getElementById('valor-obs').innerText = ` Valor aproximado`;
+				}else{
+					document.getElementById('valor-obs').innerText = ` Total a pagar`;
+				}
+				
+		        document.getElementById('valor-pagar').innerText = `R$ ${valor.toFixed(2)}`;
+		    }
+
+		    // Iniciar o cálculo
+		    calculateUsage();
+
+		    // Se "devolvida" não existir, atualizar dinamicamente a cada minuto
+		    if (!devolvida) {
+		        setInterval(calculateUsage, 60000); // Atualizar a cada 60 segundos
+		    }
+	</script>
+		
 </body>
 
 </html>

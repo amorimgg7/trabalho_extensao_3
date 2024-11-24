@@ -117,6 +117,42 @@
 		</table>
 	</div>
 	
+	
+	
+	
+	<!--
+	<table>
+	            <tr>
+	                <th class="status-card">Ensaio</th>
+	                <th class="status-card">Codigo</th>
+	                <th class="status-card">Nome</th>
+	                <th class="status-card">Idade</th>
+	                <th class="status-card">Senha</th>
+	                <th class="status-card">Nível de Acesso</th>
+	                <th class="status-card">BTN</th>
+	            </tr>
+	            <tr th:each="pessoa, stat : ${pessoas}">
+	                <td class="gps-info" th:text="${stat.index}"></td>
+	                <td class="gps-info" th:text="${pessoa.cd_pessoa}"></td>
+	                <td class="gps-info" th:text="${pessoa.ds_nome}"></td>
+	                <td class="gps-info" th:text="${pessoa.dt_nascimento}"></td>
+	                <td class="gps-info" th:text="${pessoa.ds_senha}"></td>
+	                <td class="gps-info" th:text="${pessoa.nivelAcesso}"></td>
+	                <td class="gps-info"><a th:href="@{/dashboard/{cod}(cod=${pessoa.cd_pessoa})}">Selecionar 1</a></td>
+	                <form method="post">
+	                    <td class="gps-info">
+	                        <input type="tel" name="nomePessoa" id="nomePessoa" th:value="${pessoa.ds_nome}" />
+	                        <input type="tel" name="senhaPessoa" id="senhaPessoa" th:value="${pessoa.ds_senha}" />
+	                        <input type="submit" value="Selecionar 2" />
+	                    </td>
+	                </form>
+	            </tr>
+
+
+
+	        </table>
+			
+			-->
 </body>
 
 
