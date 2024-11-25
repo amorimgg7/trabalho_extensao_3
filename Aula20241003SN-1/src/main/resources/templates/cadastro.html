@@ -97,25 +97,9 @@
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg bg-transparent">
-        <a href="index.html">
+        <a href="/login">
             <i class="fas fa-bicycle bike-icon"></i>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Sobre</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Preços</a>
-                </li>
-            </ul>
-        </div>
     </nav>
 
     <!-- Conteúdo principal -->
@@ -127,12 +111,10 @@
         <div class="d-flex justify-content-center progress-bar-custom mb-5">
             <span class="active mx-2"></span>
             <span class="mx-2"></span>
-            <span class="mx-2"></span>
-            <span class="mx-2"></span>
         </div>
 
         <!-- Formulário -->
-        <form class="row g-4 justify-content-center" action="finalizarCadastro" method="post">
+        <form id="form1" class="row g-4 justify-content-center" action="javascript:void(0);" method="post" onsubmit="saveAndRedirect()">
             <div class="col-md-5">
                 <label for="ds_nome" class="form-label text-warning">Nome</label>
                 <input type="text" class="form-control bg-dark text-white" id="ds_nome" name="ds_nome" placeholder="Digite seu nome">
@@ -143,7 +125,7 @@
             </div>
             <div class="col-md-5">
                 <label for="nu_cpf" class="form-label text-warning">CPF</label>
-                <input type="tel" class="form-control bg-dark text-white" id="nu_cpf" name="nu_cpf" placeholder="Digite seu CPF">
+                <input type="number" class="form-control bg-dark text-white" id="nu_cpf" name="nu_cpf" placeholder="Digite seu CPF">
             </div>
             <div class="col-md-5">
                 <label for="dt_nascimento" class="form-label text-warning">Data de Nascimento</label>
@@ -151,22 +133,52 @@
             </div>
             <div class="col-md-5">
                 <label for="nu_telefone" class="form-label text-warning">Telefone</label>
-                <input type="tel" class="form-control bg-dark text-white" id="nu_telefone" name="nu_telefone" placeholder="Digite seu telefone">
+                <input type="number" class="form-control bg-dark text-white" id="nu_telefone" name="nu_telefone" placeholder="Digite seu telefone">
             </div>
             <div class="col-md-5">
                 <label for="ds_senha" class="form-label text-warning">Senha</label>
                 <input type="password" class="form-control bg-dark text-white" id="ds_senha" name="ds_senha" placeholder="Digite sua senha">
             </div>
             <div class="col-md-12">
-                <button type="submit" class="btn btn-custom px-5 py-2">Finalizar</button>
+                <button type="submit" class="btn btn-custom px-5 py-2">Prosseguir</button>
             </div>
         </form>
 
         <!-- Link para sair -->
-        <a href="#" class="exit-link mt-4 d-block">sair</a>
+        <a href="/login" class="exit-link mt-4 d-block" onclick="clearLocalStorage()">Sair</a>
     </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const formData = JSON.parse(localStorage.getItem('formData'));
+            if (formData) {
+                document.getElementById('ds_nome').value = formData.nome;
+                document.getElementById('ds_email').value = formData.email;
+                document.getElementById('nu_cpf').value = formData.cpf;
+                document.getElementById('dt_nascimento').value = formData.nascimento;
+                document.getElementById('nu_telefone').value = formData.telefone;
+                document.getElementById('ds_senha').value = formData.senha;
+            }
+        });
+
+        function saveAndRedirect() {
+            const formData = {
+                nome: document.getElementById('ds_nome').value,
+                email: document.getElementById('ds_email').value,
+                cpf: document.getElementById('nu_cpf').value,
+                nascimento: document.getElementById('dt_nascimento').value,
+                telefone: document.getElementById('nu_telefone').value,
+                senha: document.getElementById('ds_senha').value
+            };
+            localStorage.setItem('formData', JSON.stringify(formData));
+            window.location.href = '/cadastro2';
+        }
+
+        function clearLocalStorage() {
+            localStorage.removeItem('formData');
+        }
+    </script>
 </body>
 </html>

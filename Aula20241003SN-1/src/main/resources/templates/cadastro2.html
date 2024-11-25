@@ -97,53 +97,24 @@
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg bg-transparent">
-        <a href="index.html">
+        <a href="/login">
             <i class="fas fa-bicycle bike-icon"></i>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Sobre</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Roteiros</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Preço</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contatos</a>
-                </li>
-            </ul>
-            <div class="social-icons">
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-linkedin"></i></a>
-            </div>
-        </div>
     </nav>
 
     <!-- Conteúdo principal -->
     <div class="container text-center my-5">
-        <h1 class="mb-4">Cadastrar Passo 2</h1>
+        <h1 class="mb-4">Cadastro</h1>
         <i class="fas fa-bicycle fa-4x text-dark mb-4"></i>
 
         <!-- Barra de progresso -->
         <div class="d-flex justify-content-center progress-bar-custom mb-5">
             <span class="mx-2"></span>
             <span class="active mx-2"></span>
-            <span class="mx-2"></span>
-            <span class="mx-2"></span>
         </div>
 
         <!-- Formulário -->
-        <form class="row g-4 justify-content-center" action="/finalizarCadastro" method="post">
+        <form id="form2" class="row g-4 justify-content-center" action="/finalizarCadastro" method="post" onsubmit="submitForm()">
             <div class="col-md-12">
                 <label for="endereco" class="form-label text-warning">Endereço</label>
                 <input type="text" class="form-control bg-dark text-white" id="endereco" name="endereco" placeholder="Digite seu endereço">
@@ -160,20 +131,46 @@
                 <label for="bairro" class="form-label text-warning">Bairro</label>
                 <input type="text" class="form-control bg-dark text-white" id="bairro" name="bairro" placeholder="Digite seu bairro">
             </div>
-            <div class="col-md-12">
-                <label for="experiencia" class="form-label text-warning">Como você nos conheceu?</label>
-                <textarea class="form-control bg-dark text-white" id="experiencia" name="experiencia" rows="3" placeholder="Conte sua experiência"></textarea>
-            </div>
             <div class="col-12">
                 <button type="submit" class="btn btn-custom px-5 py-2">Finalizar</button>
             </div>
         </form>
 
-        <!-- Link para sair -->
-        <a href="#" class="exit-link mt-4 d-block">sair</a>
+        <!-- Link para voltar -->
+        <a href="/cadastro" class="exit-link mt-4 d-block" onclick="clearLocalStorage()">Voltar</a>
     </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const formData = JSON.parse(localStorage.getItem('formData'));
+            if (formData) {
+                document.getElementById('ds_nome').value = formData.nome;
+                document.getElementById('ds_email').value = formData.email;
+                document.getElementById('nu_cpf').value = formData.cpf;
+                document.getElementById('dt_nascimento').value = formData.nascimento;
+                document.getElementById('nu_telefone').value = formData.telefone;
+                document.getElementById('ds_senha').value = formData.senha;
+            }
+        });
+
+        function submitForm() {
+            const form1Data = JSON.parse(localStorage.getItem('formData'));
+            const form2Data = {
+                endereco: document.getElementById('endereco').value,
+                numero: document.getElementById('numero').value,
+                complemento: document.getElementById('complemento').value,
+                bairro: document.getElementById('bairro').value,
+                experiencia: document.getElementById('experiencia').value
+            };
+            const finalData = { ...form1Data, ...form2Data };
+            // Submit finalData to the server
+        }
+
+        function clearLocalStorage() {
+            localStorage.removeItem('formData');
+        }
+    </script>
 </body>
 </html>
