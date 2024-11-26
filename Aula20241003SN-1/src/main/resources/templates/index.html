@@ -126,20 +126,42 @@
 		    let rentalStartTime;
 		    let rentalEndTime;
 
+			function showTotemSection(){
+				document.getElementById('saldacao-section').style.display = 'none';
+				document.getElementById('totem-section').style.display = 'block';
+				document.getElementById('bikes-section').style.display = 'none';
+				document.getElementById('bike-details-section').style.display = 'none';
+			}
+			function selectTotem(descricao, codigo){
+				console.log("Totem:", codigo, " - ", descricao);
+				
+				document.getElementById('selected-totem').innerHTML = `Bicicletas disponiveis em (`+descricao+`)`;
+				document.getElementById('totem-section').style.display = 'none';
+				document.getElementById('bikes-section').style.display = 'block';
+				document.getElementById('bike-details-section').style.display = 'none';
+			}
 		    function showBikesSection() {
 		        document.getElementById('bikes-section').style.display = 'block';
 		        document.getElementById('bike-details-section').style.display = 'none';
 		    }
 
-		    function selectBike(name, description, price) {
+		    function selectBike(codigo, descricao, preco) {
+				
+				console.log("Código:", codigo, "Descrição:", descricao, "Preço:", preco);
 		        rentalStartTime = new Date();
 		        document.getElementById('bikes-section').style.display = 'none';
 		        const bikeDetailsSection = document.getElementById('bike-details-section');
 		        bikeDetailsSection.style.display = 'block';
+				
+				document.getElementById('bike_select').value = codigo;
+				document.getElementById('cliente_select').value = '[[${session.codigoPessoa}]]';
+				document.getElementById('totem_select').value = '';
+				document.getElementById('dataehora_select').value = '';
+									
 		        bikeDetailsSection.querySelector('#selected-bike-info').innerHTML = `
 		            <p><strong>Nome:</strong> ${name}</p>
-		            <p><strong>Descrição:</strong> ${description}</p>
-		            <p><strong>Preço por Hora:</strong> R$ ${price}</p>
+		            <p><strong>Descrição:</strong> ${descricao}</p>
+		            <p><strong>Preço por Hora:</strong> R$ ${preco}</p>
 		        `;
 		        document.getElementById('return-bike-btn').style.display = 'none';
 				document.getElementById('payment-section').style.display = 'block';
@@ -222,7 +244,7 @@
     </nav>
 
     <!-- Section -->
-    <section class="hero-section">
+    <section class="hero-section" id="saldacao-section">
         <div class="container text-center">
             <i class="fas fa-bicycle fa-3x" style="color: black;"></i>
 			
@@ -234,106 +256,87 @@
 
 			<h3 class="hero-subtitle subtitulo-bike">e economize</h3>
             <p class="hero-text texto-bike">O melhor local para alugar sua bike!</p>
-            <button class="order-btn" onclick="showBikesSection()">ALUGAR</button>
+            <button class="order-btn" onclick="showTotemSection()">ALUGAR</button>
         </div>
     </section>
 
+	
+	<!-- Seção de Totems por Região -->
+	    <section id="totem-section" style="display: none;">
+	        <div class="container mt-5">
+	            <h2 class="text-center mb-4">Totem por área</h2>
+	            <table class="table table-bordered table-striped">
+	                <trtbody>
+	                    
+						<tr>
+							<td th:each="totems : ${session.totems}">
+								<button class="btn btn-success" th:onclick="selectTotem([[${totems.ds_totem}]], [[${totems.cd_totem}]])">
+								[[${totems.ds_totem}]]
+								</button>
+							</td>
+						</tr>			   
+											
+												
+	                </tbody>
+	            </table>
+				
+			</div>
+	    </section>
+		
+		
     <!-- Seção de Bicicletas Disponíveis -->
     <section id="bikes-section" style="display: none;">
         <div class="container mt-5">
-            <h2 class="text-center mb-4">Bicicletas Disponíveis</h2>
-            <table class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>Nome</th>
-                        <th>Descrição</th>
-                        <th>Preço por Hora</th>
-                        <th>Ação</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Bike Urbana</td>
-                        <td>Bicicleta leve e prática para uso na cidade.</td>
-                        <td>10,00</td>
-                        <td><button class="btn btn-success" onclick="selectBike('Bike Urbana', 'Bicicleta leve e prática para uso na cidade.', 10)">Selecionar</button></td>
-                    </tr>
-                    <tr>
-                        <td>Bike de Montanha</td>
-                        <td>Ideal para trilhas e terrenos acidentados.</td>
-                        <td>15,00</td>
-						<td><button class="btn btn-success" onclick="selectBike('Bike Urbana', 'Bicicleta leve e prática para uso na cidade.', 10)">Selecionar</button></td>
-						                    
-                    </tr>
-					
-					
-					
-					<tr>
-					
-					</tr>	
-                </tbody>
-            </table>
+            <h2 class="text-center mb-4" id="selected-totem"></h2>
+			
+			
 			
 			<table class="table table-bordered table-striped">
-				<thead>
-					<tr>
-						<td>Bicicleta</td>
-						<td>Preço por Hora</td>
-						<td>Ação</td>
-					</tr>					
-				</thead>
-				<tbody>
-					<tr>
-						<tr th:each="bicicleta : ${session.bicicletas}">
-							<td>
-								<input type="text" th:value="${bicicleta.ds_bicicleta}" style="display: none"></input>
-								<p th:text="${bicicleta.ds_bicicleta}"></p>
-							</td>
-							<td>
-								<input type="text" th:value="${bicicleta.nu_preco}" style="display: none"></input>
-								<p th:text="${bicicleta.nu_preco}"></p>
-							</td>
-							
-							<td>
-								<input class="btn btn-success" type="submit" value="Selecionar"></input>
-							</td>
-							<!--<td class="gps-info" th:text="${bicicleta.ativo}"></td>
-							<td class="gps-info"><a th:href="@{/dashboard/{cod}(cod=${bicicleta.cd_bicicleta})}">Selecionar 1</a></td>-->
-						</tr>
+			    <thead>
+			        <tr >
+						<th>Totem</th>
+			            <th>Local 1</th>
+			            <th>Local 2</th>
+			            <th>Local 3</th>
+			            <th>Local 4</th>
+			            <th>Local 5</th>
+			        </tr>					
+			    </thead>
+			    <tbody>
+
+					<tr th:each="totem : ${session.totems}" th:if="${totem.cd_totem == 1}">
+					    <td th:text="${totem.ds_totem}"></td>
+					    <td th:text="${totem.local_1}"></td>
+					    <td th:text="${totem.local_2}"></td>
+					    <td th:text="${totem.local_3}"></td>
+					    <td th:text="${totem.local_4}"></td>
+					    <td th:text="${totem.local_5}"></td>
 					</tr>
-				</tbody>
+
+					
+			    </tbody>
 			</table>
+
 			
 			
-			<table border="1" style="margin: 2pt; padding: 2pt;">
-						<tr>
-							<th class="status-card">Bicicleta</th>
-							<th class="status-card">Codigo</th>
-							<th class="status-card">Descrição</th>
-							<th class="status-card">Status</th>
-							<th class="status-card">Tranca</th>
-							<th class="status-card">Ativo</th>
-							<th class="status-card">BTN</th>
-						</tr>
-						<tr th:each="bicicleta, stat : ${bicicletas}">
-							<td class="gps-info" th:text="${stat.index}"></td>
-							<td class="gps-info" th:text="${bicicleta.cd_bicicleta}"></td>
-							<td class="gps-info" th:text="${bicicleta.ds_bicicleta}"></td>
-							<td class="gps-info" th:text="${bicicleta.ds_statuss}"></td>
-							<td class="gps-info" th:text="${bicicleta.nu_tranca}"></td>
-							<td class="gps-info" th:text="${bicicleta.ativo}"></td>
-							<td class="gps-info"><a th:href="@{/dashboard/{cod}(cod=${bicicleta.cd_bicicleta})}">Selecionar 1</a></td>
-						</tr>
-					</table>
+			
         </div>
     </section>
 
     <!-- Seção de Pagamento -->
     <section id="payment-section" style="display: none;">
         <div class="container mt-5">
-            <h2 class="text-center mb-4">Pagamento</h2>
-            <div id="selected-bike-info"></div>
-            <button class="btn btn-primary" onclick="pagar()">Pagar</button>
+            
+			<table  class="table table-bordered table-striped">
+				<tr><h2 class="text-center mb-4">Pagamento</h2></tr>
+				<tr>
+					<td><input type="text" id="bike_select"></td>
+					<td><input type="text" id="cliente_select"></td>
+					<td><input type="text" id="totem_select"></td>
+					<td><input type="text" id="dataehora_select"></td>
+				</tr>
+				<tr><td style="text-align: center;"><button class="btn btn-primary" onclick="pagar()">Pagar</button></td></tr>
+			</table>
         </div>
     </section>
 

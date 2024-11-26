@@ -135,8 +135,11 @@ public class IndexController {
 
                     if (aluguel == null) {
                     	session.setAttribute("bicicletas", bnet.obterTodos().execute().body());
+                    	session.setAttribute("totems", tnet.obterTodos().execute().body());
                         session.setAttribute("codigoBicicleta", "0");
                         session.setAttribute("codigoAluguel", "0");
+                        System.out.println(session.getAttribute("bicicletas"));
+
                     } else {
                         Bicicleta bicicleta = bnet.obter(aluguel.cd_bicicleta).execute().body();
                         session.setAttribute("codigoBicicleta", aluguel.cd_bicicleta);
@@ -162,6 +165,25 @@ public class IndexController {
         return "redirect:/";
     }
 
+    
+    
+    
+    
+    @PostMapping("/selectTotem")
+    public String cadastrarPessoa(@RequestParam("cd_totem") String cd_totem,  Model model) {
+        try {
+        	Totem totem = tnet.obter(Integer.valueOf(cd_totem)).execute().body();
+
+        	
+        	model.addAttribute("totemselecionado", totem);
+        	return "redirect:/erro/2";
+    
+        } catch (IOException e) {
+            model.addAttribute("mensagem", "Erro ao cadastrar: " + e.getMessage());
+            return "redirect:/erro/2";
+        }
+        
+    }
     @PostMapping("/finalizarCadastro")
     public String cadastrarPessoa(@RequestParam("ds_nome") String ds_nome, @RequestParam("nu_cpf") String nu_cpf,
             @RequestParam("dt_nascimento") String dt_nascimento, @RequestParam("ds_email") String ds_email,
