@@ -17,22 +17,22 @@ public class Pessoa {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public Integer cd_pessoa;
-    public Integer nu_cpf;
+    public String nu_cpf;
     public String ds_email;
 
     public String ds_nome;
-    public Integer nu_telefone;
-    public LocalDate dt_nascimento;
+    public String nu_telefone;
+    public String dt_nascimento;
     public String ds_senha;
 
-    public Integer nivelAcesso;
+    public String nivelAcesso;
     public Boolean ativo;
 
-    public Integer getNivelAcesso() {
+    public String getNivelAcesso() {
         return nivelAcesso;
     }
 
-    public void setNivelAcesso(Integer nivelAcesso) {
+    public void setNivelAcesso(String nivelAcesso) {
         this.nivelAcesso = nivelAcesso;
     }
 

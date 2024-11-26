@@ -40,6 +40,7 @@
 				<th class="status-card">Descrição</th>
 				<th class="status-card">Status</th>
 				<th class="status-card">Tranca</th>
+				<th class="status-card">Preço</th>
 				<th class="status-card">Ativo</th>
 				<th class="status-card">BTN</th>
 			</tr>
@@ -49,6 +50,7 @@
 				<td class="gps-info" th:text="${bicicleta.ds_bicicleta}"></td>
 				<td class="gps-info" th:text="${bicicleta.ds_statuss}"></td>
 				<td class="gps-info" th:text="${bicicleta.nu_tranca}"></td>
+				<td class="gps-info" th:text="${bicicleta.nu_preco}"></td>
 				<td class="gps-info" th:text="${bicicleta.ativo}"></td>
 				<td class="gps-info"><a th:href="@{/dashboard/{cod}(cod=${bicicleta.cd_bicicleta})}">Selecionar 1</a></td>
 			</tr>

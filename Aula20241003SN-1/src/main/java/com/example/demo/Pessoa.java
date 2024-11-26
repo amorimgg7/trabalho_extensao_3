@@ -29,6 +29,9 @@ public class Pessoa {
         this.ds_nome = ds_nome;
     }  
     
+    public String getCPF() {
+        return nu_cpf;
+    }
     public void setCPF(String nu_cpf) {
     	this.nu_cpf = nu_cpf;
     }

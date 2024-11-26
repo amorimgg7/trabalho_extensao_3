@@ -7,6 +7,7 @@ public class Bicicleta {
     public String ds_bicicleta;
     public Integer nu_tranca;
     public String ds_statuss;
+    public String nu_preco;
     public Boolean ativo;
 
 

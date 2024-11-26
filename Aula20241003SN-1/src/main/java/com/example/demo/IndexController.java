@@ -3,6 +3,7 @@ package com.example.demo;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 import org.springframework.stereotype.Controller;
@@ -126,12 +127,14 @@ public class IndexController {
             } else {
                 if (pessoa.nivelAcesso == 1) {
                     model.addAttribute("pessoas", pessoa);
+                    
                     session.setAttribute("codigoPessoa", pessoa.cd_pessoa);
-                    session.setAttribute("nome", pessoa.ds_nome);
+                    session.setAttribute("nomePessoa", pessoa.ds_nome);
 
                     Aluguel aluguel = anet.obter(pessoa.cd_pessoa, false).execute().body();
 
                     if (aluguel == null) {
+                    	session.setAttribute("bicicletas", bnet.obterTodos().execute().body());
                         session.setAttribute("codigoBicicleta", "0");
                         session.setAttribute("codigoAluguel", "0");
                     } else {
@@ -186,6 +189,29 @@ public class IndexController {
             return "redirect:/erro/2";
         }
     }
+    
+    @PostMapping("/escolherBicicleta")
+    public String escolherBicicleta(@RequestParam("cd_bicicleta") String cd_bicicleta, @RequestParam("cd_pessoa") String cd_pessoa, @RequestParam("cd_totem") String cd_totem, @RequestParam("vl_aluguel") String vl_aluguel, Model model) {
+        try {
+        	Aluguel aluguel = new Aluguel();
+        	aluguel.setBicicleta(cd_bicicleta);
+        	aluguel.setPessoa(cd_pessoa);
+        	aluguel.setTotemRetirada(cd_totem);
+        	LocalDateTime agora = LocalDateTime.now();
+        	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        	String dt_retirada = agora.format(formatter);
+        	aluguel.setDataRetirada(dt_retirada);
+        	aluguel.setDataRetirada(dt_retirada);
+        	aluguel.setValorAluguel(vl_aluguel);
+        	aluguel.setPago(false);
+        	anet.incluir(aluguel).execute();
+            model.addAttribute("mensagem", "Aluguel realizado com sucesso!");
+            return "redirect:/";
+        } catch (IOException e) {
+            model.addAttribute("mensagem", "Erro ao cadastrar: " + e.getMessage());
+            return "redirect:/erro/3";
+        }
+    }
 
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
@@ -210,6 +236,11 @@ public class IndexController {
     @GetMapping("/cadastro2")
     public String cadastro2() {
         return "cadastro2";
+    }
+    
+    @GetMapping("/sobre")
+    public String sobre() {
+        return "sobre";
     }
 
     @RequestMapping("/erro")
