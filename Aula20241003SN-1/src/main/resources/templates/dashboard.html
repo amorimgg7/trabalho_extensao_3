@@ -1,268 +1,240 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--<script>location.href="localhost:8080/dashboard";</script>-->
-    <title>Dashboard de Aluguel de Bicicleta</title>
+    <title>Dashboard Atualizado</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         body {
+            background-color: #009c3b;
+            color: #fff;
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
         }
-
-        .dashboard-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        .bike {
+            font-size: 2rem;
+            color: #000;
         }
-
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-
-        .status-info {
-            display: flex;
+        .navbar {
             justify-content: space-between;
-            margin: 20px 0;
         }
-
-        .status-card {
-            flex: 1;
-            background-color: #eaeaea;
+        .card {
+            background-color: #33c152;
+            border: none;
+            border-radius: 10px;
             padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            margin: 0 10px;
+            color: #fff;
         }
-
-        .status-card h2 {
-            color: #666;
+        .btn-location {
+            background-color: #ffc107;
+            border: none;
+            color: #000;
+            font-weight: bold;
+            width: 100%;
         }
-
-        .status-card p {
-            font-size: 1.5rem;
-            color: #333;
-        }
-
-        .gps-info {
-            margin-top: 20px;
-            background-color: #e0f7fa;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .gps-info h3 {
-            color: #00796b;
-        }
-
-        .gps-info p {
-            color: #004d40;
-            font-size: 1.2rem;
-        }
-
-        .not-alugado {
-            text-align: center;
-            font-size: 1.2rem;
-            color: #d32f2f;
+        .btn-location:hover {
+            background-color: #e0a800;
         }
     </style>
-
-    <script>
-        window.onload = function () {
-            // Obtém o valor do código da sessão
-            const codigoPessoa = '[[${ session.codigoPessoa }]]'; // Use a sintaxe correta do Thymeleaf para obter o valor
-            const codigoBicicleta = '[[${ session.codigoBicicleta }]]';
-            const codigoAluguel = '[[${ session.codigoAluguel }]]';
-            const codigoCarteira = '[[${ session.codigoCarteira }]]';
-
-            console.log("Pessoa: " + '[[${ session.codigoPessoa }]]');
-            console.log("Bicicleta: " + '[[${ session.codigoBicicleta }]]');
-            console.log("Aluguel: " + '[[${ session.codigoAluguel }]]');
-            console.log("Carteira: " + '[[${ session.codigoCarteira }]]');
-            // Verifica se o código é maior que 0 ou não nulo
-            if (codigoPessoa == null || codigoPessoa == "null") {
-                // Redireciona para a página de dashboard
-                window.location.href = 'http://localhost:8081/'; // Altere o caminho conforme necessário
-            }
-
-            if (codigoBicicleta == null || codigoBicicleta < 1) {
-                document.getElementById("statusBicicleta").style.display = "none";
-				document.getElementById("semBicicleta").style.visibility = "visible";
-                console.log("Sem Bike");
-				
-            } else {
-                console.log("Com Bike");
-                document.getElementById("statusBicicleta").style.visibility = "visible";
-				document.getElementById("semBicicleta").style.display = "none";
-            }
-
-        }
-    </script>
-	
-	
-	
-	
-
-	
-	
 </head>
-
 <body>
-    <div class="dashboard-container">
-        <h1>Dashboard de Aluguel de Bicicleta</h1>
-
-        <div class="gps-info">
-            <h3>Olá, <span th:text="${session.nome} ">, aproveite nossos serviços</h3>
-            <p>...status...atualizações...financeiro...</p>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <i class="bike fas fa-bicycle"></i>
+            </a>
         </div>
+    </nav>
 
-
-		<div class="gps-info">
-			<h2>Status Aluguel</h2>
-        	<div class="status-info" id="statusBicicleta">
-        	    <div class="status-card">
-        	        <h2>Bicicleta: <span th:text="${session.codigoBicicleta}">?</span></h2>
-					<span id="bibicleta-obs">?</span>
-					<h3><span th:text="${session.descricaoBicicleta}">?</span></h3>
-				
-        	        <p th:text="${session.statusBicicleta}">Alugado</p>
-        	    </div>
-        	    
-				
-				<div class="status-card">
-					<h2>Tempo de Uso</h2>
-					<p id="tempo-uso">Calculando...</p>
-				</div>
-
-				<div class="status-card">
-				    <h2>Valor a Pagar</h2>
-					<h3 id="valor-obs">...</h3>
-				    <p id="valor-pagar">Calculando...</p>
-				</div>
-					
-        	</div>
-		</div>
-
-
-		<!--
-        <div class="gps-info">
-            <h3>Localização Atual do Patinete</h3>
-            <p id="gps-local">Rua Exemplo, 123 - Centro, Cidade</p>
-        </div>-->
-
-        <!-- Se o usuário não estiver com patinete alugado -->
-
-        <div class="not-alugado" id="semBicicleta">
-            <p>Você não está com nenhuma Bicicleta, Deseja alugar?</p>
+    <!-- Conteúdo Principal -->
+    <div class="container d-flex justify-content-center align-items-center" style="height: 90vh;">
+        <div class="card w-75 text-center">
+            <h3 class="mb-4">Locais</h3>
+            <div class="d-flex justify-content-around">
+                <a href="javascript:void(0)" class="btn btn-location" onclick="showSection('barra-da-tijuca')">Barra da Tijuca</a>
+                <a href="javascript:void(0)" class="btn btn-location" onclick="showSection('ipanema')">Ipanema</a>
+                <a href="javascript:void(0)" class="btn btn-location" onclick="showSection('leblon')">Leblon</a>
+            </div>
         </div>
-
-
-        
     </div>
 
+    <!-- Seções de Locais -->
+    <section id="barra-da-tijuca" class="mt-5 section" style="display: none;">
+        <div class="container text-center">
+            <h2>Bicicletas disponíveis - Barra da Tijuca</h2>
+            <div class="card mt-4">
+                <table class="table table-dark table-striped text-center">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Descrição</th>
+                            <th>Preço por hora</th>
+                            <th>Quantidade disponível</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="bicicleta : ${bicicletasBarra}">
+                            <td th:text="${bicicleta.ds_bicicleta}"></td>
+                            <td th:text="${bicicleta.ds_statuss}"></td>
+                            <td th:text="${bicicleta.nu_preco}"></td>
+                            <td th:text="${bicicleta.nu_tranca}"></td>
+                            <td>
+                                <button class="btn-select" th:onclick="'showBikeDetails(' + ${bicicleta.ds_bicicleta} + ',' + ${bicicleta.ds_statuss} + ',' + ${bicicleta.nu_preco} + ')'">
+                                    Alugar
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="ipanema" class="mt-5 section" style="display: none;">
+        <div class="container text-center">
+            <h2>Bicicletas disponíveis - Ipanema</h2>
+            <div class="card mt-4">
+                <table class="table table-dark table-striped text-center">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Descrição</th>
+                            <th>Preço por hora</th>
+                            <th>Quantidade disponível</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="bicicleta : ${bicicletasIpanema}">
+                            <td th:text="${bicicleta.ds_bicicleta}"></td>
+                            <td th:text="${bicicleta.ds_statuss}"></td>
+                            <td th:text="${bicicleta.nu_preco}"></td>
+                            <td th:text="${bicicleta.nu_tranca}"></td>
+                            <td>
+                                <button class="btn-select" th:onclick="'showBikeDetails(' + ${bicicleta.ds_bicicleta} + ',' + ${bicicleta.ds_statuss} + ',' + ${bicicleta.nu_preco} + ')'">
+                                    Alugar
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section id="leblon" class="mt-5 section" style="display: none;">
+        <div class="container text-center">
+            <h2>Bicicletas disponíveis - Leblon</h2>
+            <div class="card mt-4">
+                <table class="table table-dark table-striped text-center">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Descrição</th>
+                            <th>Preço por hora</th>
+                            <th>Quantidade disponível</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="bicicleta : ${bicicletasLeblon}">
+                            <td th:text="${bicicleta.ds_bicicleta}"></td>
+                            <td th:text="${bicicleta.ds_statuss}"></td>
+                            <td th:text="${bicicleta.nu_preco}"></td>
+                            <td th:text="${bicicleta.nu_tranca}"></td>
+                            <td>
+                                <button class="btn-select" th:onclick="'showBikeDetails(' + ${bicicleta.ds_bicicleta} + ',' + ${bicicleta.ds_statuss} + ',' + ${bicicleta.nu_preco} + ')'">
+                                    Alugar
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seções de Detalhes das Bicicletas -->
+    <section id="bike-details" class="mt-5 section" style="display: none;">
+        <div class="container text-center">
+            <h2>Detalhes da Bicicleta</h2>
+            <div class="details-card mt-4 mx-auto p-4" style="max-width: 600px;">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div id="bike-details-content">
+                        <!-- Bike details will be inserted here -->
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" onclick="showSection('payment-summary')">Pagar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seções de Pagamento -->
+    <section id="payment-summary" class="mt-5 section" style="display: none;">
+        <div class="container text-center">
+            <h2>Resumo do Pagamento</h2>
+            <div id="payment-summary-content">
+                <!-- Payment summary will be inserted here -->
+            </div>
+            <div class="btn-container">
+                <button class="btn-return">Devolver</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Exemplo de simulação de dados dinâmicos
-        const tempoUso = document.getElementById("tempo-uso");
-        const gpsLocal = document.getElementById("gps-local");
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(function(section) {
+                section.style.display = 'none';
+            });
 
-        // Atualizando os dados (poderia ser via AJAX, fetch etc.)
-        tempoUso.innerText = "25 min";
-        gpsLocal.innerText = "Av. Principal, 200 - Bairro, Cidade";
+            // Show the selected section
+            document.getElementById(sectionId).style.display = 'block';
+        }
 
+        function showBikeDetails(nome, descricao, preco) {
+            const bikeDetailsContent = `
+                <p><strong>Nome:</strong> ${nome}</p>
+                <p><strong>Descrição:</strong> ${descricao}</p>
+                <p><strong>Preço por hora:</strong> R$ ${preco}</p>
+            `;
+            document.getElementById('bike-details-content').innerHTML = bikeDetailsContent;
+            showSection('bike-details');
+        }
 
-
+        function showPaymentSummary(nome, descricao, preco) {
+            const paymentSummaryContent = `
+                <div class="bike-details">
+                    <p><strong>Nome:</strong> ${nome}</p>
+                    <p><strong>Descrição:</strong> ${descricao}</p>
+                    <p><strong>Preço por hora:</strong> R$ ${preco}</p>
+                </div>
+                <div class="summary">
+                    <h3>Resumo do Pagamento</h3>
+                    <p><strong>Totem:</strong> Totem 1</p>
+                    <p><strong>Tempo de Uso:</strong> 1 minuto(s)</p>
+                    <p><strong>Custo:</strong> R$ ${(preco / 60).toFixed(2)}</p>
+                </div>
+                <div class="coins">
+                    <h3>Troco em Moedas:</h3>
+                    <p>0 moeda(s) de R$ 1</p>
+                    <p>0 moeda(s) de R$ 0,5</p>
+                    <p>0 moeda(s) de R$ 0,25</p>
+                </div>
+            `;
+            document.getElementById('payment-summary-content').innerHTML = paymentSummaryContent;
+            showSection('payment-summary');
+        }
     </script>
-	
-	
-	
-	<script>
-		// Obter dados do Thymeleaf
-		    const retirada = /*[[${session.datahoraRetirada}]]*/ '2024-11-22T08:00:00'; // Exemplo de data
-		    const devolvida = /*[[${session.datahoraDevolvida}]]*/ null; // Exemplo: null se ainda não devolvido
-		    const precoPorHora = /*[[${session.precobicicleta}]]*/ 2; // Exemplo: custo por hora em reais
-
-			document.getElementById('bibicleta-obs').innerText = `Preço por hora R$ ${precoPorHora.toFixed(2)}`;
-			//bibicleta-obs
-		    // Função para formatar a duração
-		    function formatDuration(ms) {
-		        const totalMinutes = Math.floor(ms / 60000);
-		        const days = Math.floor(totalMinutes / 1440); // 1440 minutos em um dia
-		        const hours = Math.floor((totalMinutes % 1440) / 60); // Horas restantes
-		        const minutes = totalMinutes % 60; // Minutos restantes
-
-		        if (days > 0) {
-		            return `${days}d ${hours} h ${minutes} min`;
-		        } else if (hours > 0) {
-		            return `${hours} h ${minutes} min`;
-		        } else {
-		            return `${minutes} min`;
-		        }
-		    }
-
-		    // Função para calcular o tempo de uso
-		    function calculateUsage() {
-		        const retiradaTime = new Date(retirada);
-		        const endTime = devolvida ? new Date(devolvida) : new Date();
-
-		        // Validar se as datas são válidas
-		        if (isNaN(retiradaTime) || isNaN(endTime)) {
-		            document.getElementById('tempo-uso').innerText = 'Erro: Data inválida';
-		            document.getElementById('valor-pagar').innerText = 'Erro: Data inválida';
-		            return;
-		        }
-
-		        const duration = endTime - retiradaTime;
-
-		        // Verificar se a duração é negativa
-		        if (duration < 0) {
-		            document.getElementById('tempo-uso').innerText = 'Erro: Horário inválido';
-		            document.getElementById('valor-pagar').innerText = 'Erro: Horário inválido';
-		            return;
-		        }
-
-		        // Atualizar o tempo formatado
-		        document.getElementById('tempo-uso').innerText = formatDuration(duration);
-
-		        // Calcular e exibir o valor a pagar
-		        calculatePayment(duration);
-		    }
-
-		    // Função para calcular o valor a pagar com base em horas e minutos fracionados
-		    function calculatePayment(ms) {
-		        // Convertendo milissegundos para horas fracionadas
-		        const totalHours = ms / 3600000; // Total de horas com fração (1 hora = 3600000 ms)
-		        
-		        // Calcular o valor baseado nas horas fracionadas
-		        const valor = totalHours * precoPorHora;
-
-		        // Atualizar o elemento com o valor formatado
-				if(devolvida == null){
-					document.getElementById('valor-obs').innerText = ` Valor aproximado`;
-				}else{
-					document.getElementById('valor-obs').innerText = ` Total a pagar`;
-				}
-				
-		        document.getElementById('valor-pagar').innerText = `R$ ${valor.toFixed(2)}`;
-		    }
-
-		    // Iniciar o cálculo
-		    calculateUsage();
-
-		    // Se "devolvida" não existir, atualizar dinamicamente a cada minuto
-		    if (!devolvida) {
-		        setInterval(calculateUsage, 60000); // Atualizar a cada 60 segundos
-		    }
-	</script>
-		
 </body>
-
 </html>

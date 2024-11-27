@@ -1,10 +1,8 @@
 package com.example.demo;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -162,7 +160,7 @@ public class IndexController {
             }
         } catch (IOException e) {
         }
-        return "redirect:/";
+        return "redirect:/dashboard";
     }
 
     
