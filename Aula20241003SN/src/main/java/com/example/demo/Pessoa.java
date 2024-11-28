@@ -1,8 +1,5 @@
 package com.example.demo;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,12 +16,10 @@ public class Pessoa {
     public Integer cd_pessoa;
     public String nu_cpf;
     public String ds_email;
-
     public String ds_nome;
     public String nu_telefone;
     public String dt_nascimento;
     public String ds_senha;
-
     public String nivelAcesso;
     public Boolean ativo;
 
