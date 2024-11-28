@@ -18,5 +18,4 @@ public interface TotemNet {
 
     @POST("totem")
     Call<Void> incluir(@Body Totem t);
-
 }

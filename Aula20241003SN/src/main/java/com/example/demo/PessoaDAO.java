@@ -8,13 +8,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface PessoaDAO extends JpaRepository<Pessoa, Integer> {
 
-    /*
- * Aqui deve ter duas funcoes.
- * Login
- * Cadastro
- * AtualizaCadastro
- * */
-	@Query("select p from Pessoa p where p.ds_nome = :nome and p.ds_senha= :senha")
+    @Query("select p from Pessoa p where p.ds_nome = :nome and p.ds_senha= :senha")
     Optional<Pessoa> findByNomeAndSenha(@Param("nome") String nome, @Param("senha") String senha);
-
 }

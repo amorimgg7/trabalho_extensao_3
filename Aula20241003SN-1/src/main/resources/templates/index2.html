@@ -1,162 +1,149 @@
-<html>
-
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa de Classes</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #009c3b;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        .navbar {
+            justify-content: space-between;
+        }
+        .card {
+            background-color: #33c152;
+            border: none;
+            border-radius: 10px;
+            padding: 20px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .table {
+            color: #fff;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
+        .btn-select {
+            background-color: #ffc107;
+            border: none;
+            color: #000;
+            font-weight: bold;
+        }
+        .btn-select:hover {
+            background-color: #e0a800;
+        }
+    </style>
+</head>
 <body>
-	<h1>Mapa de Classes</h1>
-	<div>
-		<h3>Principais</h3>
-		<table border="1" style="margin: 2pt; padding: 2pt;">
-			<tr>
-				<th class="status-card">Pessoa</th>
-				<th class="status-card">Codigo</th>
-				<th class="status-card">Nome</th>
-				<th class="status-card">CPF</th>
-				<th class="status-card">Email</th>
-				<th class="status-card">Telefone</th>
-				<th class="status-card">Data Nascimento</th>
-				<th class="status-card">Senha</th>
-				<th class="status-card">Nível de Acesso</th>
-				<th class="status-card">Ativo</th>
-				<th class="status-card">BTN</th>
-			</tr>
-			<tr th:each="pessoa, stat : ${pessoas}">
-				<td class="gps-info" th:text="${stat.index}"></td>
-				<td class="gps-info" th:text="${pessoa.cd_pessoa}"></td>
-				<td class="gps-info" th:text="${pessoa.ds_nome}"></td>
-				<td class="gps-info" th:text="${pessoa.nu_cpf}"></td>
-				<td class="gps-info" th:text="${pessoa.ds_email}"></td>
-				<td class="gps-info" th:text="${pessoa.nu_telefone}"></td>
-				<td class="gps-info" th:text="${pessoa.dt_nascimento}"></td>
-				<td class="gps-info" th:text="${pessoa.ds_senha}"></td>
-				<td class="gps-info" th:text="${pessoa.nivelAcesso}"></td>
-				<td class="gps-info" th:text="${pessoa.ativo}"></td>
-				<td class="gps-info"><a th:href="@{/dashboard/{cod}(cod=${pessoa.cd_pessoa})}">Selecionar 1</a></td>
-			</tr>
-		</table>
-		
-		<table border="1" style="margin: 2pt; padding: 2pt;">
-			<tr>
-				<th class="status-card">Bicicleta</th>
-				<th class="status-card">Codigo</th>
-				<th class="status-card">Descrição</th>
-				<th class="status-card">Status</th>
-				<th class="status-card">Tranca</th>
-				<th class="status-card">Preço</th>
-				<th class="status-card">Ativo</th>
-				<th class="status-card">BTN</th>
-			</tr>
-			<tr th:each="bicicleta, stat : ${bicicletas}">
-				<td class="gps-info" th:text="${stat.index}"></td>
-				<td class="gps-info" th:text="${bicicleta.cd_bicicleta}"></td>
-				<td class="gps-info" th:text="${bicicleta.ds_bicicleta}"></td>
-				<td class="gps-info" th:text="${bicicleta.ds_statuss}"></td>
-				<td class="gps-info" th:text="${bicicleta.nu_tranca}"></td>
-				<td class="gps-info" th:text="${bicicleta.nu_preco}"></td>
-				<td class="gps-info" th:text="${bicicleta.ativo}"></td>
-				<td class="gps-info"><a th:href="@{/dashboard/{cod}(cod=${bicicleta.cd_bicicleta})}">Selecionar 1</a></td>
-			</tr>
-		</table>
-			
-		<table border="1" style="margin: 2pt; padding: 2pt;">
-			<tr>
-				<th class="status-card">Totem</th>
-				<th class="status-card">Codigo</th>
-				<th class="status-card">Descrição Totem</th>
-				<th class="status-card">Endereço</th>
-				<th class="status-card">Status</th>
-				<th class="status-card">Local_1</th>
-				<th class="status-card">Local_2</th>
-				<th class="status-card">Local_3</th>
-				<th class="status-card">Local_4</th>
-				<th class="status-card">Local_5</th>
-				<th class="status-card">Ativo</th>
-				<th class="status-card">BTN</th>
-			</tr>
-			<tr th:each="totem, stat : ${totems}">
-				<td class="gps-info" th:text="${stat.index}"></td>
-				<td class="gps-info" th:text="${totem.cd_totem}"></td>
-				<td class="gps-info" th:text="${totem.ds_totem}"></td>
-				<td class="gps-info" th:text="${totem.ds_endereco}"></td>
-				<td class="gps-info" th:text="${totem.ds_statuss}"></td>
-				<td class="gps-info" th:text="${totem.local_1}"></td>
-				<td class="gps-info" th:text="${totem.local_2}"></td>
-				<td class="gps-info" th:text="${totem.local_3}"></td>
-				<td class="gps-info" th:text="${totem.local_4}"></td>
-				<td class="gps-info" th:text="${totem.local_5}"></td>
-				<td class="gps-info" th:text="${totem.ativo}"></td>
-				<td class="gps-info"><a th:href="@{/dashboard/{cod}(cod=${totem.cd_totem})}">Selecionar 1</a></td>
-			</tr>
-		</table>
-	</div>
-	<div>
-		<h3>Relacionais</h3>
-		<table border="1" style="margin: 2pt; padding: 2pt;">
-			<tr>
-				<th class="status-card">Aluguel</th>
-				<th class="status-card">Codigo</th>
-				<th class="status-card">Pessoa</th>
-				<th class="status-card">Bicicleta</th>
-				<th class="status-card">Totem Retirada</th>
-				<th class="status-card">Data retirada</th>
-				<th class="status-card">Totem Devolução</th>
-				<th class="status-card">Data Devolução</th>
-				<th class="status-card">Valor</th>
-				<th class="status-card">Pago</th>
-				<th class="status-card">BTN</th>
-			</tr>
-			<tr th:each="aluguel, stat : ${aluguels}">
-				<td class="gps-info" th:text="${stat.index}"></td>
-				<td class="gps-info" th:text="${aluguel.cd_aluguel}"></td>
-				<td class="gps-info" th:text="${aluguel.cd_pessoa}"></td>
-				<td class="gps-info" th:text="${aluguel.cd_bicicleta}"></td>
-				<td class="gps-info" th:text="${aluguel.cd_totem_retirada}"></td>
-				<td class="gps-info" th:text="${aluguel.dt_retirada}"></td>
-				<td class="gps-info" th:text="${aluguel.cd_totem_devolucao}"></td>
-				<td class="gps-info" th:text="${aluguel.dt_devolucao}"></td>
-				<td class="gps-info" th:text="${aluguel.nu_valor_aluguel}"></td>
-				<td class="gps-info" th:text="${aluguel.pago}"></td>
-				<td class="gps-info"><a th:href="@{/dashboard/{cod}(cod=${aluguel.cd_aluguel})}">Selecionar 1</a></td>
-			</tr>
-		</table>
-	</div>
-	
-	
-	
-	
-	<!--
-	<table>
-	            <tr>
-	                <th class="status-card">Ensaio</th>
-	                <th class="status-card">Codigo</th>
-	                <th class="status-card">Nome</th>
-	                <th class="status-card">Idade</th>
-	                <th class="status-card">Senha</th>
-	                <th class="status-card">Nível de Acesso</th>
-	                <th class="status-card">BTN</th>
-	            </tr>
-	            <tr th:each="pessoa, stat : ${pessoas}">
-	                <td class="gps-info" th:text="${stat.index}"></td>
-	                <td class="gps-info" th:text="${pessoa.cd_pessoa}"></td>
-	                <td class="gps-info" th:text="${pessoa.ds_nome}"></td>
-	                <td class="gps-info" th:text="${pessoa.dt_nascimento}"></td>
-	                <td class="gps-info" th:text="${pessoa.ds_senha}"></td>
-	                <td class="gps-info" th:text="${pessoa.nivelAcesso}"></td>
-	                <td class="gps-info"><a th:href="@{/dashboard/{cod}(cod=${pessoa.cd_pessoa})}">Selecionar 1</a></td>
-	                <form method="post">
-	                    <td class="gps-info">
-	                        <input type="tel" name="nomePessoa" id="nomePessoa" th:value="${pessoa.ds_nome}" />
-	                        <input type="tel" name="senhaPessoa" id="senhaPessoa" th:value="${pessoa.ds_senha}" />
-	                        <input type="submit" value="Selecionar 2" />
-	                    </td>
-	                </form>
-	            </tr>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/login">
+                <i class="fas fa-bicycle"></i>
+            </a>
+        </div>
+    </nav>
 
+    <!-- Conteúdo Principal -->
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Mapa da Gestão</h1>
+        <div class="card">
+            <h3 class="mb-3">Pessoa</h3>
+            <table class="table table-dark table-striped text-center">
+                <thead>
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Nome</th>
+                        <th>CPF</th>
+                        <th>Email</th>
+                        <th>Telefone</th>
+                        <th>Data Nascimento</th>
+                        <th>Senha</th>
+                        <th>Nível de Acesso</th>
+                        <th>Ativo</th>
+                        <th>BTN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="pessoa, stat : ${pessoas}">
+                        <td th:text="${pessoa.cd_pessoa}"></td>
+                        <td th:text="${pessoa.ds_nome}"></td>
+                        <td th:text="${pessoa.nu_cpf}"></td>
+                        <td th:text="${pessoa.ds_email}"></td>
+                        <td th:text="${pessoa.nu_telefone}"></td>
+                        <td th:text="${pessoa.dt_nascimento}"></td>
+                        <td th:text="${pessoa.ds_senha}"></td>
+                        <td th:text="${pessoa.nivelAcesso}"></td>
+                        <td th:text="${pessoa.ativo}"></td>
+                        <td><a th:href="@{/dashboard/{cod}(cod=${pessoa.cd_pessoa})}" class="btn btn-select">Selecionar</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
+        <div class="card">
+            <h3 class="mb-3">Bicicleta</h3>
+            <table class="table table-dark table-striped text-center">
+                <thead>
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Descrição</th>
+                        <th>Status</th>
+                        <th>Tranca</th>
+                        <th>Preço</th>
+                        <th>Ativo</th>
+                        <th>BTN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="bicicleta, stat : ${bicicletas}">
+                        <td th:text="${bicicleta.cd_bicicleta}"></td>
+                        <td th:text="${bicicleta.ds_bicicleta}"></td>
+                        <td th:text="${bicicleta.ds_statuss}"></td>
+                        <td th:text="${bicicleta.nu_tranca}"></td>
+                        <td th:text="${bicicleta.nu_preco}"></td>
+                        <td th:text="${bicicleta.ativo}"></td>
+                        <td><a th:href="@{/dashboard/{cod}(cod=${bicicleta.cd_bicicleta})}" class="btn btn-select">Selecionar</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
-	        </table>
-			
-			-->
+        <div class="card">
+            <h3 class="mb-3">Totem</h3>
+            <table class="table table-dark table-striped text-center">
+                <thead>
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Descrição Totem</th>
+                        <th>Endereço</th>
+                        <th>Status</th>
+                        <th>Ativo</th>
+                        <th>BTN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="totem, stat : ${totems}">
+                        <td th:text="${totem.cd_totem}"></td>
+                        <td th:text="${totem.ds_totem}"></td>
+                        <td th:text="${totem.ds_endereco}"></td>
+                        <td th:text="${totem.ds_statuss}"></td>
+                        <td th:text="${totem.ativo}"></td>
+                        <td><a th:href="@{/dashboard/{cod}(cod=${totem.cd_totem})}" class="btn btn-select">Selecionar</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
-
-
 </html>

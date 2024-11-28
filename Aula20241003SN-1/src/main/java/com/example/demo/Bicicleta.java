@@ -75,6 +75,4 @@ public class Bicicleta {
         this.ativo = ativo;
     }
 
-
-
 }

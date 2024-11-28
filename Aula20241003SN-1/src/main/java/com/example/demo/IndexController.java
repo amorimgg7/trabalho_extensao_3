@@ -1,6 +1,9 @@
 package com.example.demo;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -116,6 +119,11 @@ public class IndexController {
 
     @PostMapping("/login")
     public String login(@RequestParam("ds_nome") String ds_nome, @RequestParam("ds_senha") String ds_senha, Model model, jakarta.servlet.http.HttpSession session) {
+        if (ds_nome == null || ds_nome.isEmpty() || ds_senha == null || ds_senha.isEmpty()) {
+            model.addAttribute("mensagem", "Por favor, preencha todos os campos.");
+            return "redirect:/erro/1";
+        }
+
         try {
             Pessoa pessoa = pnet.login(ds_nome, ds_senha).execute().body();
 
@@ -183,6 +191,13 @@ public class IndexController {
             @RequestParam("dt_nascimento") String dt_nascimento, @RequestParam("ds_email") String ds_email,
             @RequestParam("ds_senha") String ds_senha, @RequestParam("nu_telefone") String nu_telefone,
             Model model) {
+        if (ds_nome == null || ds_nome.isEmpty() || nu_cpf == null || nu_cpf.isEmpty() ||
+            dt_nascimento == null || dt_nascimento.isEmpty() || ds_email == null || ds_email.isEmpty() ||
+            ds_senha == null || ds_senha.isEmpty() || nu_telefone == null || nu_telefone.isEmpty()) {
+            model.addAttribute("mensagem", "Por favor, preencha todos os campos.");
+            return "redirect:/erro/2";
+        }
+
         try {
             Pessoa pessoa = new Pessoa();
             pessoa.setNome(ds_nome);
@@ -338,5 +353,107 @@ public class IndexController {
             model.addAttribute("mensagem", "Erro ao carregar detalhes da bicicleta: " + e.getMessage());
         }
         return "detalhesBicicleta";
+    }
+
+    @PostMapping("/alugarBicicleta")
+    public String alugarBicicleta(@RequestParam("cd_bicicleta") String cd_bicicleta, jakarta.servlet.http.HttpSession session, Model model) {
+        if (cd_bicicleta == null || cd_bicicleta.isEmpty()) {
+            model.addAttribute("mensagem", "Por favor, selecione uma bicicleta.");
+            return "redirect:/erro/3";
+        }
+
+        try {
+            Integer cd_pessoa = (Integer) session.getAttribute("codigoPessoa");
+            if (cd_pessoa == null) {
+                model.addAttribute("mensagem", "Usuário não está logado.");
+                return "redirect:/erro/1";
+            }
+
+            Bicicleta bicicleta = bnet.obter(cd_bicicleta).execute().body();
+            if (bicicleta == null) {
+                model.addAttribute("mensagem", "Bicicleta não encontrada.");
+                return "redirect:/erro/3";
+            }
+
+            // Verificar se ds_totem não é nulo
+            String ds_totem = bicicleta.getDs_totem();
+            if (ds_totem == null) {
+                model.addAttribute("mensagem", "Totem não encontrado.");
+                return "redirect:/erro/3";
+            }
+
+            Totem totem = tnet.obterTodos().execute().body().stream()
+                .filter(t -> t.getDs_totem().equals(ds_totem))
+                .findFirst()
+                .orElse(null);
+            if (totem == null) {
+                model.addAttribute("mensagem", "Totem não encontrado.");
+                return "redirect:/erro/3";
+            }
+
+            Aluguel aluguel = new Aluguel();
+            aluguel.setCd_pessoa(cd_pessoa.toString());
+            aluguel.setCd_bicicleta(cd_bicicleta);
+            aluguel.setCd_totem_retirada(totem.getCd_totem().toString());
+            aluguel.setDt_retirada(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            aluguel.setPago(false);
+
+            anet.incluir(aluguel).execute();
+
+            session.setAttribute("codigoBicicleta", cd_bicicleta);
+            session.setAttribute("codigoAluguel", aluguel.getCd_aluguel());
+            session.setAttribute("descricaoBicicleta", bicicleta.getDs_bicicleta());
+
+            return "redirect:/dashboard";
+        } catch (IOException e) {
+            model.addAttribute("mensagem", "Erro ao alugar bicicleta: " + e.getMessage());
+            return "redirect:/erro/3";
+        }
+    }
+
+    @PostMapping("/devolverBicicleta")
+    public String devolverBicicleta(@RequestParam("cd_aluguel") Integer cd_aluguel, @RequestParam("cd_totem_devolucao") String cd_totem_devolucao, jakarta.servlet.http.HttpSession session, Model model) {
+        if (cd_aluguel == null || cd_totem_devolucao == null || cd_totem_devolucao.isEmpty()) {
+            model.addAttribute("mensagem", "Por favor, preencha todos os campos.");
+            return "redirect:/erro/3";
+        }
+
+        try {
+            Aluguel aluguel = anet.obter(cd_aluguel, false).execute().body();
+            if (aluguel == null) {
+                model.addAttribute("mensagem", "Aluguel não encontrado.");
+                return "redirect:/erro/3";
+            }
+
+            LocalDateTime dtDevolucao = LocalDateTime.now();
+            aluguel.setDt_devolucao(dtDevolucao.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            aluguel.setCd_totem_devolucao(cd_totem_devolucao);
+
+            LocalDateTime dtRetirada = LocalDateTime.parse(aluguel.getDt_retirada(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            Duration duration = Duration.between(dtRetirada, dtDevolucao);
+            double hoursUsed = duration.toHours() + (duration.toMinutesPart() / 60.0);
+
+            Bicicleta bicicleta = bnet.obter(aluguel.getCd_bicicleta()).execute().body();
+            if (bicicleta == null) {
+                model.addAttribute("mensagem", "Bicicleta não encontrada.");
+                return "redirect:/erro/3";
+            }
+
+            double cost = hoursUsed * Double.parseDouble(bicicleta.getNu_preco());
+            aluguel.setNu_valor_aluguel(String.valueOf(cost));
+            aluguel.setPago(true);
+
+            anet.atualizar(aluguel).execute();
+
+            session.setAttribute("codigoBicicleta", "0");
+            session.setAttribute("codigoAluguel", "0");
+            session.setAttribute("descricaoBicicleta", "Nenhuma");
+
+            model.addAttribute("mensagem", "Bicicleta devolvida com sucesso. Custo total: R$ " + cost);
+            return "redirect:/dashboard";
+        } catch (IOException e) {
+            model.addAttribute("mensagem", "Erro ao devolver bicicleta: " + e.getMessage());
+            return "redirect:/erro/3";
+        }
     }
 }
