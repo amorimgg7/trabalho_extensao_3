@@ -9,8 +9,8 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface BicicletaNet {
-    @GET("bicicleta/{cd_bicicleta}")
-    Call<Bicicleta> obter(@Path(value = "cd_bicicleta") String cd_bicicleta);
+    @GET("bicicleta/{cd_pessoa}")
+    Call<Bicicleta> obter(@Path(value = "cd_pessoa") String cd_pessoa);
     
     @GET("bicicleta")
     Call<List<Bicicleta>> obterTodos();

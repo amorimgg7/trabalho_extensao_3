@@ -2,6 +2,36 @@
 <html lang="pt-BR">
 
 <head>
+	
+	<script>
+			    
+			    window.onload = function () {
+			        // Obtém os valores da sessão usando Thymeleaf
+			        const codigoPessoa = '[[${session.codigoPessoa}]]';
+					const nomePessoa = '[[${session.nomePessoa}]]';
+					const codigoAluguel = '[[${session.codigoAluguel}]]';
+			        const codigoErro = '[[${session.codigoErro}]]';
+
+			        console.log('Código Pessoa:', codigoPessoa);
+					console.log('Nome Pessoa:', nomePessoa);
+					console.log('Código Erro:', codigoErro);
+					console.log('Código Aluguel:', codigoAluguel);
+										
+
+			        // Verifica se o código da pessoa é válido
+			        if (codigoPessoa === '') {
+			            // Redireciona para a página de login
+			            window.location.href = '/login'; // Altere o caminho conforme necessário
+			        }
+					if(codigoAluguel > 0){
+						document.getElementById('bike-details').style.display = 'block';
+						document.getElementById('totem-selection').style.display = 'none';
+					}else{
+						document.getElementById('bike-details').style.display = 'none';
+					}
+			    };
+				
+	</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Atualizado</title>
@@ -47,28 +77,30 @@
     </style>
 </head>
 
-<body>
+<section>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="/dashboard">
                 <i class="bike fas fa-bicycle"></i>
             </a>
         </div>
     </nav>
 
     <!-- Conteúdo Principal -->
-    <div class="container d-flex justify-content-center align-items-center" style="height: 90vh;">
-        <div class="card w-75 text-center">
-            <h3 class="mb-4">Locais</h3>
-            <div class="d-flex justify-content-around">
-                <a href="javascript:void(0)" class="btn btn-location" onclick="showSection('Barra da Tijuca')">Barra da
-                    Tijuca</a>
-                <a href="javascript:void(0)" class="btn btn-location" onclick="showSection('Ipanema')">Ipanema</a>
-                <a href="javascript:void(0)" class="btn btn-location" onclick="showSection('Leblon')">Leblon</a>
-            </div>
-        </div>
-    </div>
+	<section id="totem-selection">
+    	<div class="container d-flex justify-content-center align-items-center"  style="height: 90vh;">
+    	    <div class="card w-75 text-center">
+    	        <h3 class="mb-4">Locais</h3>
+    	        <div class="d-flex justify-content-around">
+    	            <a href="javascript:void(0)" class="btn btn-location" onclick="showSection('Barra da Tijuca')">Barra da
+    	                Tijuca</a>
+    	            <a href="javascript:void(0)" class="btn btn-location" onclick="showSection('Ipanema')">Ipanema</a>
+    	            <a href="javascript:void(0)" class="btn btn-location" onclick="showSection('Leblon')">Leblon</a>
+    	        </div>
+    	    </div>
+    	</div>
+	</section>
 
     <!-- Seções de Locais -->
     <section id="Barra da Tijuca" class="mt-5 section" style="display: none;">
@@ -261,6 +293,7 @@
             });
 
             // Show the selected section
+			document.getElementById('totem-selection').style.display = 'none';
             document.getElementById(sectionId).style.display = 'block';
         }
 

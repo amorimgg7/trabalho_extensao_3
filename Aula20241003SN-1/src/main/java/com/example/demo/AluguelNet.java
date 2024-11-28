@@ -12,7 +12,7 @@ import retrofit2.http.Path;
 public interface AluguelNet {
 
     @GET("aluguel/{cd_pessoa}/{pago}")
-    Call<Aluguel> obter(@Path(value = "cd_pessoa") Integer cd_pessoa, @Path(value = "pago") Boolean pago);
+    Call<Aluguel> obter(@Path(value = "cd_pessoa") String cd_pessoa);
 
     @GET("aluguel")
     Call<List<Aluguel>> obterTodos();

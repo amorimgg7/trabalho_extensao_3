@@ -86,7 +86,7 @@ public class IndexController {
                     session.setAttribute("codigoPessoa", pessoa.cd_pessoa);
                     session.setAttribute("nome", pessoa.ds_nome);
 
-                    Aluguel aluguel = anet.obter(pessoa.cd_pessoa, false).execute().body();
+                    Aluguel aluguel = anet.obter(pessoa.cd_pessoa.toString()).execute().body();
 
                     if (aluguel == null) {
                         session.setAttribute("codigoBicicleta", "0");
@@ -137,11 +137,9 @@ public class IndexController {
                     session.setAttribute("codigoPessoa", pessoa.cd_pessoa);
                     session.setAttribute("nomePessoa", pessoa.ds_nome);
 
-                    Aluguel aluguel = anet.obter(pessoa.cd_pessoa, false).execute().body();
+                    Aluguel aluguel = anet.obter(pessoa.cd_pessoa.toString()).execute().body();
 
-                    if (aluguel == null) {
-                        session.setAttribute("bicicletas", bnet.obterTodos().execute().body());
-                        session.setAttribute("totems", tnet.obterTodos().execute().body());
+                    if (aluguel == null || aluguel.cd_aluguel > 0) {
                         session.setAttribute("codigoBicicleta", "0");
                         session.setAttribute("codigoAluguel", "0");
                         System.out.println(session.getAttribute("bicicletas"));
@@ -157,6 +155,7 @@ public class IndexController {
                         } else {
                             session.setAttribute("descricaoBicicleta", "Desconhecida");
                         }
+                       
                     }
 
                     session.setAttribute("codigoCarteira", "1");
@@ -419,7 +418,7 @@ public class IndexController {
         }
 
         try {
-            Aluguel aluguel = anet.obter(cd_aluguel, false).execute().body();
+            Aluguel aluguel = anet.obter(cd_aluguel.toString()).execute().body();
             if (aluguel == null) {
                 model.addAttribute("mensagem", "Aluguel não encontrado.");
                 return "redirect:/erro/3";
