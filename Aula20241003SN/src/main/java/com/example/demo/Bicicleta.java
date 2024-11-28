@@ -1,14 +1,11 @@
 package com.example.demo;
 
-import java.util.List;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
-import jakarta.persistence.OneToMany;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -24,9 +21,6 @@ public class Bicicleta {
     public Double nu_preco;
     public Boolean ativo;
     public String ds_totem; // New field to relate with Totem
-
-    @OneToMany(mappedBy = "bicicleta")
-    public List<Aluguel> alugueis;
 
     public Integer getCd_bicicleta() {
         return cd_bicicleta;
@@ -91,15 +85,5 @@ public class Bicicleta {
     public void setDs_totem(String ds_totem) {
         this.ds_totem = ds_totem;
     }
-
-    public List<Aluguel> getAlugueis() {
-        return alugueis;
-    }
-
-    public void setAlugueis(List<Aluguel> alugueis) {
-        this.alugueis = alugueis;
-    }
-
-    
 
 }

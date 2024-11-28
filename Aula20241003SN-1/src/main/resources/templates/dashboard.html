@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,13 +15,16 @@
             color: #fff;
             font-family: Arial, sans-serif;
         }
+
         .bike {
             font-size: 2rem;
             color: #000;
         }
+
         .navbar {
             justify-content: space-between;
         }
+
         .card {
             background-color: #33c152;
             border: none;
@@ -28,6 +32,7 @@
             padding: 20px;
             color: #fff;
         }
+
         .btn-location {
             background-color: #ffc107;
             border: none;
@@ -35,11 +40,13 @@
             font-weight: bold;
             width: 100%;
         }
+
         .btn-location:hover {
             background-color: #e0a800;
         }
     </style>
 </head>
+
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
@@ -55,15 +62,16 @@
         <div class="card w-75 text-center">
             <h3 class="mb-4">Locais</h3>
             <div class="d-flex justify-content-around">
-                <a href="javascript:void(0)" class="btn btn-location" onclick="showSection('barra-da-tijuca')">Barra da Tijuca</a>
-                <a href="javascript:void(0)" class="btn btn-location" onclick="showSection('ipanema')">Ipanema</a>
-                <a href="javascript:void(0)" class="btn btn-location" onclick="showSection('leblon')">Leblon</a>
+                <a href="javascript:void(0)" class="btn btn-location" onclick="showSection('Barra da Tijuca')">Barra da
+                    Tijuca</a>
+                <a href="javascript:void(0)" class="btn btn-location" onclick="showSection('Ipanema')">Ipanema</a>
+                <a href="javascript:void(0)" class="btn btn-location" onclick="showSection('Leblon')">Leblon</a>
             </div>
         </div>
     </div>
 
     <!-- Seções de Locais -->
-    <section id="barra-da-tijuca" class="mt-5 section" style="display: none;">
+    <section id="Barra da Tijuca" class="mt-5 section" style="display: none;">
         <div class="container text-center">
             <h2>Bicicletas disponíveis - Barra da Tijuca</h2>
             <div class="card mt-4">
@@ -71,22 +79,24 @@
                     <thead>
                         <tr>
                             <th>Nome</th>
-                            <th>Descrição</th>
+                            <th>Tipo</th>
                             <th>Preço por hora</th>
-                            <th>Quantidade disponível</th>
+                            <th>Número da Tranca</th>
                             <th>Ação</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr th:each="bicicleta : ${bicicletasBarra}">
                             <td th:text="${bicicleta.ds_bicicleta}"></td>
-                            <td th:text="${bicicleta.ds_statuss}"></td>
+                            <td th:text="${bicicleta.tp_bicicleta}"></td>
                             <td th:text="${bicicleta.nu_preco}"></td>
                             <td th:text="${bicicleta.nu_tranca}"></td>
                             <td>
-                                <button class="btn-select" th:onclick="'showBikeDetails(' + ${bicicleta.ds_bicicleta} + ',' + ${bicicleta.ds_statuss} + ',' + ${bicicleta.nu_preco} + ')'">
-                                    Alugar
-                                </button>
+                                <form th:action="@{/detalhesBicicleta}" method="post">
+                                    <input type="hidden" name="cd_bicicleta" th:value="${bicicleta.cd_bicicleta}" />
+                                    <input type="hidden" name="cd_totem" th:value="${bicicleta.ds_totem}" />
+                                    <button type="submit" class="btn-select">Alugar</button>
+                                </form>
                             </td>
                         </tr>
                     </tbody>
@@ -95,7 +105,7 @@
         </div>
     </section>
 
-    <section id="ipanema" class="mt-5 section" style="display: none;">
+    <section id="Ipanema" class="mt-5 section" style="display: none;">
         <div class="container text-center">
             <h2>Bicicletas disponíveis - Ipanema</h2>
             <div class="card mt-4">
@@ -103,22 +113,24 @@
                     <thead>
                         <tr>
                             <th>Nome</th>
-                            <th>Descrição</th>
+                            <th>Tipo</th>
                             <th>Preço por hora</th>
-                            <th>Quantidade disponível</th>
+                            <th>Número da Tranca</th>
                             <th>Ação</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr th:each="bicicleta : ${bicicletasIpanema}">
                             <td th:text="${bicicleta.ds_bicicleta}"></td>
-                            <td th:text="${bicicleta.ds_statuss}"></td>
+                            <td th:text="${bicicleta.tp_bicicleta}"></td>
                             <td th:text="${bicicleta.nu_preco}"></td>
                             <td th:text="${bicicleta.nu_tranca}"></td>
                             <td>
-                                <button class="btn-select" th:onclick="'showBikeDetails(' + ${bicicleta.ds_bicicleta} + ',' + ${bicicleta.ds_statuss} + ',' + ${bicicleta.nu_preco} + ')'">
-                                    Alugar
-                                </button>
+                                <form th:action="@{/detalhesBicicleta}" method="post">
+                                    <input type="hidden" name="cd_bicicleta" th:value="${bicicleta.cd_bicicleta}" />
+                                    <input type="hidden" name="cd_totem" th:value="${bicicleta.ds_totem}" />
+                                    <button type="submit" class="btn-select">Alugar</button>
+                                </form>
                             </td>
                         </tr>
                     </tbody>
@@ -127,7 +139,7 @@
         </div>
     </section>
 
-    <section id="leblon" class="mt-5 section" style="display: none;">
+    <section id="Leblon" class="mt-5 section" style="display: none;">
         <div class="container text-center">
             <h2>Bicicletas disponíveis - Leblon</h2>
             <div class="card mt-4">
@@ -135,22 +147,24 @@
                     <thead>
                         <tr>
                             <th>Nome</th>
-                            <th>Descrição</th>
+                            <th>Tipo</th>
                             <th>Preço por hora</th>
-                            <th>Quantidade disponível</th>
+                            <th>Número da Tranca</th>
                             <th>Ação</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr th:each="bicicleta : ${bicicletasLeblon}">
                             <td th:text="${bicicleta.ds_bicicleta}"></td>
-                            <td th:text="${bicicleta.ds_statuss}"></td>
+                            <td th:text="${bicicleta.tp_bicicleta}"></td>
                             <td th:text="${bicicleta.nu_preco}"></td>
                             <td th:text="${bicicleta.nu_tranca}"></td>
                             <td>
-                                <button class="btn-select" th:onclick="'showBikeDetails(' + ${bicicleta.ds_bicicleta} + ',' + ${bicicleta.ds_statuss} + ',' + ${bicicleta.nu_preco} + ')'">
-                                    Alugar
-                                </button>
+                                <form th:action="@{/detalhesBicicleta}" method="post">
+                                    <input type="hidden" name="cd_bicicleta" th:value="${bicicleta.cd_bicicleta}" />
+                                    <input type="hidden" name="cd_totem" th:value="${bicicleta.ds_totem}" />
+                                    <button type="submit" class="btn-select">Alugar</button>
+                                </form>
                             </td>
                         </tr>
                     </tbody>
@@ -194,7 +208,7 @@
     <script>
         function showSection(sectionId) {
             // Hide all sections
-            document.querySelectorAll('.section').forEach(function(section) {
+            document.querySelectorAll('.section').forEach(function (section) {
                 section.style.display = 'none';
             });
 
@@ -237,4 +251,5 @@
         }
     </script>
 </body>
+
 </html>

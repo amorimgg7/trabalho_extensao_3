@@ -1,8 +1,8 @@
 package com.example.demo;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -125,15 +125,15 @@ public class IndexController {
             } else {
                 if (pessoa.nivelAcesso == 1) {
                     model.addAttribute("pessoas", pessoa);
-                    
+
                     session.setAttribute("codigoPessoa", pessoa.cd_pessoa);
                     session.setAttribute("nomePessoa", pessoa.ds_nome);
 
                     Aluguel aluguel = anet.obter(pessoa.cd_pessoa, false).execute().body();
 
                     if (aluguel == null) {
-                    	session.setAttribute("bicicletas", bnet.obterTodos().execute().body());
-                    	session.setAttribute("totems", tnet.obterTodos().execute().body());
+                        session.setAttribute("bicicletas", bnet.obterTodos().execute().body());
+                        session.setAttribute("totems", tnet.obterTodos().execute().body());
                         session.setAttribute("codigoBicicleta", "0");
                         session.setAttribute("codigoAluguel", "0");
                         System.out.println(session.getAttribute("bicicletas"));
@@ -163,45 +163,39 @@ public class IndexController {
         return "redirect:/dashboard";
     }
 
-    
-    
-    
-    
     @PostMapping("/selectTotem")
-    public String cadastrarPessoa(@RequestParam("cd_totem") String cd_totem,  Model model) {
+    public String cadastrarPessoa(@RequestParam("cd_totem") String cd_totem, Model model) {
         try {
-        	Totem totem = tnet.obter(Integer.valueOf(cd_totem)).execute().body();
+            Totem totem = tnet.obter(Integer.valueOf(cd_totem)).execute().body();
 
-        	
-        	model.addAttribute("totemselecionado", totem);
-        	return "redirect:/erro/2";
-    
+            model.addAttribute("totemselecionado", totem);
+            return "redirect:/erro/2";
+
         } catch (IOException e) {
             model.addAttribute("mensagem", "Erro ao cadastrar: " + e.getMessage());
             return "redirect:/erro/2";
         }
-        
+
     }
+
     @PostMapping("/finalizarCadastro")
     public String cadastrarPessoa(@RequestParam("ds_nome") String ds_nome, @RequestParam("nu_cpf") String nu_cpf,
             @RequestParam("dt_nascimento") String dt_nascimento, @RequestParam("ds_email") String ds_email,
-            @RequestParam("ds_senha") String ds_senha, @RequestParam("nu_telefone") String nu_telefone, 
+            @RequestParam("ds_senha") String ds_senha, @RequestParam("nu_telefone") String nu_telefone,
             Model model) {
         try {
-        	Pessoa pessoa = new Pessoa();
-        	pessoa.setNome(ds_nome);
-        	pessoa.setDtNascimento(dt_nascimento);
-        	pessoa.setEmail(ds_email);
-        	pessoa.setSenha(ds_senha);
-        	pessoa.setNivelAcesso(1);
-        	pessoa.setAtivo(true);
-            
-        	
-        	pessoa.setCPF(nu_cpf);
+            Pessoa pessoa = new Pessoa();
+            pessoa.setNome(ds_nome);
+            pessoa.setDtNascimento(dt_nascimento);
+            pessoa.setEmail(ds_email);
+            pessoa.setSenha(ds_senha);
+            pessoa.setNivelAcesso(1);
+            pessoa.setAtivo(true);
+
+            pessoa.setCPF(nu_cpf);
             pessoa.setTelefone(nu_telefone);
-            
-            
-        	pnet.incluir(pessoa).execute();
+
+            pnet.incluir(pessoa).execute();
             model.addAttribute("mensagem", "Cadastro realizado com sucesso!");
             return "redirect:/cadastro";
         } catch (IOException e) {
@@ -209,26 +203,43 @@ public class IndexController {
             return "redirect:/erro/2";
         }
     }
-    
+
     @PostMapping("/escolherBicicleta")
-    public String escolherBicicleta(@RequestParam("cd_bicicleta") String cd_bicicleta, @RequestParam("cd_pessoa") String cd_pessoa, @RequestParam("cd_totem") String cd_totem, @RequestParam("vl_aluguel") String vl_aluguel, Model model) {
+    public String escolherBicicleta(@RequestParam("cd_totem") String cd_totem, Model model) {
         try {
-        	Aluguel aluguel = new Aluguel();
-        	aluguel.setBicicleta(cd_bicicleta);
-        	aluguel.setPessoa(cd_pessoa);
-        	aluguel.setTotemRetirada(cd_totem);
-        	LocalDateTime agora = LocalDateTime.now();
-        	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        	String dt_retirada = agora.format(formatter);
-        	aluguel.setDataRetirada(dt_retirada);
-        	aluguel.setDataRetirada(dt_retirada);
-        	aluguel.setValorAluguel(vl_aluguel);
-        	aluguel.setPago(false);
-        	anet.incluir(aluguel).execute();
-            model.addAttribute("mensagem", "Aluguel realizado com sucesso!");
-            return "redirect:/";
+            List<Bicicleta> bicicletas = bnet.obterTodos().execute().body();
+            if (bicicletas != null) {
+                List<Bicicleta> bicicletasFiltradas = bicicletas.stream()
+                        .filter(b -> b.getDs_totem().equals(cd_totem))
+                        .collect(Collectors.toList());
+                model.addAttribute("bicicletas", bicicletasFiltradas);
+            } else {
+                model.addAttribute("bicicletas", List.of());
+            }
+            model.addAttribute("totemSelecionado", cd_totem);
+            return "dashboard";
         } catch (IOException e) {
-            model.addAttribute("mensagem", "Erro ao cadastrar: " + e.getMessage());
+            model.addAttribute("mensagem", "Erro ao carregar bicicletas: " + e.getMessage());
+            return "redirect:/erro/3";
+        }
+    }
+
+    @GetMapping("/bicicletasPorLocal/{cd_totem}")
+    public String bicicletasPorLocal(@PathVariable("cd_totem") String cd_totem, Model model) {
+        try {
+            List<Bicicleta> bicicletas = bnet.obterTodos().execute().body();
+            if (bicicletas != null) {
+                List<Bicicleta> bicicletasFiltradas = bicicletas.stream()
+                        .filter(b -> b.getDs_totem().equals(cd_totem))
+                        .collect(Collectors.toList());
+                model.addAttribute("bicicletas", bicicletasFiltradas);
+            } else {
+                model.addAttribute("bicicletas", List.of());
+            }
+            model.addAttribute("totemSelecionado", cd_totem);
+            return "dashboard";
+        } catch (IOException e) {
+            model.addAttribute("mensagem", "Erro ao carregar bicicletas: " + e.getMessage());
             return "redirect:/erro/3";
         }
     }
@@ -236,9 +247,34 @@ public class IndexController {
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
         try {
-            model.addAttribute("pessoas", pnet.obterTodos().execute().body());
+            List<Bicicleta> bicicletas = bnet.obterTodos().execute().body();
+            System.out.println("API Response - Raw bicicletas: " + bicicletas);
+
+            if (bicicletas != null) {
+                for (Bicicleta b : bicicletas) {
+                    System.out.println("Bicicleta: " + b.getDs_bicicleta() + ", Totem: " + b.getDs_totem());
+                }
+                List<Bicicleta> bicicletasBarra = bicicletas.stream()
+                        .filter(b -> "Barra da Tijuca".equals(b.getDs_totem()))
+                        .collect(Collectors.toList());
+                List<Bicicleta> bicicletasIpanema = bicicletas.stream()
+                        .filter(b -> "Ipanema".equals(b.getDs_totem()))
+                        .collect(Collectors.toList());
+                List<Bicicleta> bicicletasLeblon = bicicletas.stream()
+                        .filter(b -> "Leblon".equals(b.getDs_totem()))
+                        .collect(Collectors.toList());
+
+                System.out.println("Bicicletas Barra: " + bicicletasBarra.size());
+                System.out.println("Bicicletas Ipanema: " + bicicletasIpanema.size());
+                System.out.println("Bicicletas Leblon: " + bicicletasLeblon.size());
+
+                model.addAttribute("bicicletasBarra", bicicletasBarra);
+                model.addAttribute("bicicletasIpanema", bicicletasIpanema);
+                model.addAttribute("bicicletasLeblon", bicicletasLeblon);
+            }
         } catch (IOException e) {
-            System.out.println("Erro");
+            System.err.println("API Error: " + e.getMessage());
+            e.printStackTrace();
         }
         return "dashboard";
     }
@@ -257,7 +293,7 @@ public class IndexController {
     public String cadastro2() {
         return "cadastro2";
     }
-    
+
     @GetMapping("/sobre")
     public String sobre() {
         return "sobre";
@@ -287,5 +323,20 @@ public class IndexController {
         }
 
         return "erro";
+    }
+
+    @PostMapping("/detalhesBicicleta")
+    public String detalhesBicicleta(@RequestParam("cd_bicicleta") String cd_bicicleta, Model model) {
+        try {
+            Bicicleta bicicleta = bnet.obter(cd_bicicleta).execute().body();
+            if (bicicleta != null) {
+                model.addAttribute("bicicleta", bicicleta);
+            } else {
+                model.addAttribute("mensagem", "Bicicleta não encontrada.");
+            }
+        } catch (IOException e) {
+            model.addAttribute("mensagem", "Erro ao carregar detalhes da bicicleta: " + e.getMessage());
+        }
+        return "detalhesBicicleta";
     }
 }
