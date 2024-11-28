@@ -20,27 +20,26 @@ import jakarta.servlet.http.HttpServletResponse;
 public class TotemController {
 
     @Autowired
-    TotemDAO dao;
+    TotemDAO tdao;
 
     @PostMapping
     public void incluir(@RequestBody Totem t) {
-        dao.save(t);
+        tdao.save(t);
     }
 
     @GetMapping
     public List<Totem> obterTodos() {
-        return dao.findAll();
+        return tdao.findAll();
     }
 
     @GetMapping("{cd_totem}")
-    public Totem ConsultarStatus(@PathVariable("cd_totem") Integer cd_totem, HttpServletResponse resp) {
-        Optional<Totem> t = dao.findById(cd_totem);
+    public Totem Consultar(@PathVariable("cd_totem") Integer cd_totem, HttpServletResponse resp) {
+        Optional<Totem> t = tdao.findByCodigo(cd_totem);
         if (t.isPresent()) {
-            return t.get();
+            return t.get(); 
         } else {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return null;
         }
     }
-
 }

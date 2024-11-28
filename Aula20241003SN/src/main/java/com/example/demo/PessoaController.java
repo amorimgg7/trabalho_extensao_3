@@ -39,8 +39,19 @@ public class PessoaController {
     public Pessoa obter(@PathVariable("cd_pessoa") Integer cd_pessoa, HttpServletResponse resp) {
         Optional<Pessoa> p = dao.findById(cd_pessoa);
         if (p.isPresent()) {
-            return p.get(); 
-        }else {
+            return p.get();
+        } else {
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return null;
+        }
+    }
+
+    @GetMapping("{ds_nome}/{ds_senha}")
+    public Pessoa login(@PathVariable("ds_nome") String ds_nome, @PathVariable("ds_senha") String ds_senha, HttpServletResponse resp) {
+        Optional<Pessoa> p = dao.findByNomeAndSenha(ds_nome, ds_senha);
+        if (p.isPresent()) {
+            return p.get();
+        } else {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return null;
         }
@@ -50,8 +61,8 @@ public class PessoaController {
     public void excluir(@PathVariable Integer cd_pessoa, HttpServletResponse resp) {
         Optional<Pessoa> p = dao.findById(cd_pessoa);
         if (p.isPresent()) {
-            dao.delete(p.get()); 
-        }else {
+            dao.delete(p.get());
+        } else {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
     }
@@ -60,8 +71,8 @@ public class PessoaController {
     public void alterar(@PathVariable Integer cd_pessoa, @RequestBody Pessoa p,
             HttpServletResponse resp) {
         if (Objects.equals(p.cd_pessoa, cd_pessoa)) {
-            dao.save(p); 
-        }else {
+            dao.save(p);
+        } else {
             resp.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }

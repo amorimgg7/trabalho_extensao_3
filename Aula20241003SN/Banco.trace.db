@@ -51,3 +51,12 @@ Caused by: org.h2.jdbc.JdbcSQLNonTransientConnectionException: The connection wa
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:690)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
 	... 47 more
+2024-11-28 16:05:31.936103-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'Barra da Tijuca' (TOTEM: ""CD_TOTEM"" INTEGER NOT NULL)"; SQL statement:
+insert into aluguel (cd_bicicleta,cd_pessoa,cd_totem_devolucao,cd_totem_retirada,dt_devolucao,dt_retirada,nu_valor_aluguel,pago,cd_aluguel) values (?,?,?,?,?,?,?,?,?) [22018-224]
+2024-11-28 16:11:59.566207-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'Barra da Tijuca' (TOTEM: ""CD_TOTEM"" INTEGER NOT NULL)"; SQL statement:
+insert into aluguel (cd_bicicleta,cd_pessoa,cd_totem_devolucao,cd_totem_retirada,dt_devolucao,dt_retirada,nu_valor_aluguel,pago,cd_aluguel) values (?,?,?,?,?,?,?,?,?) [22018-224]
+2024-11-28 16:19:44.415813-03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'Barra da Tijuca' (TOTEM: ""CD_TOTEM"" INTEGER NOT NULL)"; SQL statement:
+insert into aluguel (cd_bicicleta,cd_pessoa,cd_totem_devolucao,cd_totem_retirada,dt_devolucao,dt_retirada,nu_valor_aluguel,pago,cd_aluguel) values (?,?,?,?,?,?,?,?,?) [22018-224]
